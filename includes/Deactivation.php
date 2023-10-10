@@ -23,6 +23,8 @@ class Deactivation {
 		$this->container = $container;
 
 		// Plugin deactivation survey
-		add_action( 'admin_head-plugins.php', new DeactivationSurvey() );
+		add_action( 'admin_head-plugins.php', function () {
+			new DeactivationSurvey();
+		} );
 	}
 }

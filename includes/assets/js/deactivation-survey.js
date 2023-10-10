@@ -1,6 +1,6 @@
 {
     // Data module runtime data
-    const runtimeData = window.newfoldDataDeactivationSurvey;
+    const runtimeData = window.newfoldDeactivationSurvey;
     // Dialog instance / will be initialized later
     let deactivationSurveyDialog;
 

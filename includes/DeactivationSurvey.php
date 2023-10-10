@@ -29,7 +29,7 @@ class DeactivationSurvey {
 
         // accessible a11y dialog
         wp_register_script(
-            'nfd-data-a11y-dialog',
+            'nfd-deactivation-a11y-dialog',
             $assetsDir . 'js/a11y-dialog.min.js',
             array(),
             '8.0.4',
@@ -37,16 +37,16 @@ class DeactivationSurvey {
 
         // deactivation-survey.js
         wp_enqueue_script(
-            'nfd-data-deactivation-survey',
+            'nfd-deactivation-survey',
             $assetsDir . 'js/deactivation-survey.js',
-            array( 'nfd-data-a11y-dialog' ),
+            array( 'nfd-deactivation-a11y-dialog' ),
             container()->plugin()->version,
             true
         );
 
         // Styles
 		wp_enqueue_style(
-			'nfd-data-deactivation-survey-style',
+			'nfd-deactivation-survey-style',
 			$assetsDir . 'css/deactivation-survey.css',
 			array(),
 			container()->plugin()->version
@@ -60,26 +60,26 @@ class DeactivationSurvey {
         $plugin_slug = explode( '/', container()->plugin()->basename )[0];
 
         wp_localize_script(
-			'nfd-data-deactivation-survey',
-			'newfoldDataDeactivationSurvey',
+			'nfd-deactivation-survey',
+			'newfoldDeactivationSurvey',
 			array(
-				'eventsEndpoint' => \esc_url_raw( \get_home_url() . '/index.php?rest_route=/newfold-data/v1/events/' ),
+				'eventsEndpoint' => \esc_url_raw( \rest_url() . 'newfold-data/v1/events/' ),
 				'restApiNonce'   => wp_create_nonce( 'wp_rest' ),
-                'brand'          => container()->plugin()->brand,
+                'brand'          => container()->plugin()->id,
 				'pluginSlug'     => $plugin_slug,
                 'strings'        => array(
-                    'surveyTitle'     => __( 'Plugin Deactivation Survey', $plugin_slug ),
-                    'dialogTitle'     => __( 'Thank You for Using the ' . ucwords( container()->plugin()->brand ) . ' Plugin!', $plugin_slug ),
-                    'dialogDesc'      => __( 'Please take a moment to let us know why you\'re deactivating this plugin.', $plugin_slug ),
-                    'formAriaLabel'   => __( 'Plugin Deactivation Form', $plugin_slug ),
-                    'label'           => __( 'Why are you deactivating this plugin?', $plugin_slug ),
-                    'placeholder'     => __( 'Please share the reason here...', $plugin_slug ),
-                    'submit'          => __( 'Submit & Deactivate', $plugin_slug ),
-                    'submitAriaLabel' => __( 'Submit and Deactivate Plugin', $plugin_slug ),
-                    'cancel'          => __( 'Cancel', $plugin_slug ),
-                    'cancelAriaLabel' => __( 'Cancel Deactivation', $plugin_slug ),
-                    'skip'            => __( 'Skip & Deactivate', $plugin_slug ),
-                    'skipAriaLabel'   => __( 'Skip and Deactivate Plugin', $plugin_slug ),
+                    'surveyTitle'     => __( 'Plugin Deactivation Survey', 'wp-module-deactivation' ),
+                    'dialogTitle'     => __( 'Thank You for Using the ' . ucwords( container()->plugin()->id ) . ' Plugin!', 'wp-module-deactivation' ),
+                    'dialogDesc'      => __( 'Please take a moment to let us know why you\'re deactivating this plugin.', 'wp-module-deactivation' ),
+                    'formAriaLabel'   => __( 'Plugin Deactivation Form', 'wp-module-deactivation' ),
+                    'label'           => __( 'Why are you deactivating this plugin?', 'wp-module-deactivation' ),
+                    'placeholder'     => __( 'Please share the reason here...', 'wp-module-deactivation' ),
+                    'submit'          => __( 'Submit & Deactivate', 'wp-module-deactivation' ),
+                    'submitAriaLabel' => __( 'Submit and Deactivate Plugin', 'wp-module-deactivation' ),
+                    'cancel'          => __( 'Cancel', 'wp-module-deactivation' ),
+                    'cancelAriaLabel' => __( 'Cancel Deactivation', 'wp-module-deactivation' ),
+                    'skip'            => __( 'Skip & Deactivate', 'wp-module-deactivation' ),
+                    'skipAriaLabel'   => __( 'Skip and Deactivate Plugin', 'wp-module-deactivation' ),
                 )
 			)
 		);
