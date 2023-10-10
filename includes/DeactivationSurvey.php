@@ -9,7 +9,7 @@ use function NewfoldLabs\WP\ModuleLoader\container;
  *
  * Brand plugins deactivation survey modal.
  *
- * @package NewfoldLabs\WP\Module\Data
+ * @package NewfoldLabs\WP\Module\Deactivation
  */
 class DeactivationSurvey {
 
