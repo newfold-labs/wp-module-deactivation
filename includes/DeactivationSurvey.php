@@ -25,14 +25,14 @@ class DeactivationSurvey {
      * Enqueue deactivation survey assets.
      */
     public function deactivation_survey_assets() {
-        $assetsDir = container()->plugin()->url . 'vendor/newfold-labs/wp-module-deactivation/includes/assets/';
+        $assetsDir = container()->plugin()->url . 'vendor/newfold-labs/wp-module-deactivation/static/';
 
         // accessible a11y dialog
         wp_register_script(
             'nfd-deactivation-a11y-dialog',
             $assetsDir . 'js/a11y-dialog.min.js',
             array(),
-            '8.0.4',
+            '8.0.4'
         );
 
         // deactivation-survey.js
@@ -70,7 +70,7 @@ class DeactivationSurvey {
                 'strings'        => array(
                     'surveyTitle'     => __( 'Plugin Deactivation Survey', 'wp-module-deactivation' ),
                     'dialogTitle'     => __( 'Thank You for Using the ' . ucwords( container()->plugin()->id ) . ' Plugin!', 'wp-module-deactivation' ),
-                    'dialogDesc'      => __( 'Please take a moment to let us know why you\'re deactivating this plugin.', 'wp-module-deactivation' ),
+                    'dialogDesc'      => sprintf( __('Thank you for using the %s plugin!', 'wp-module-deactivation'), ucwords( container()->plugin()->id )),
                     'formAriaLabel'   => __( 'Plugin Deactivation Form', 'wp-module-deactivation' ),
                     'label'           => __( 'Why are you deactivating this plugin?', 'wp-module-deactivation' ),
                     'placeholder'     => __( 'Please share the reason here...', 'wp-module-deactivation' ),
