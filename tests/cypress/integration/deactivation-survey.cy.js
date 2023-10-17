@@ -69,7 +69,7 @@ describe('Plugin Deactivation Survey', () => {
         cy.get('input[nfd-deactivation-survey-submit]').click();
         cy.wait('@surveyEvent')
             // .its('request.body.action').should('eq', 'deactivation_survey_freeform')
-            .its('request.body.data.label_key').should('eq', ugcReason);
+            .its('request.body.data.survey_input').should('eq', ugcReason);
         cy.wait(500);
         // verify plugin is deactivated
         cy.get('.deactivate a[id*="' + Cypress.env('pluginId') + '"]').should('not.exist');
