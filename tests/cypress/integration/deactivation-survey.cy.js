@@ -4,6 +4,13 @@ describe('Plugin Deactivation Survey', () => {
 
 	before(() => {
         cy.visit('/wp-admin/plugins.php');
+
+        // ignore notifications errors if there are any
+        cy.intercept({
+			method: 'GET',
+			url: /newfold-notifications/,
+		}, { body: {} });
+
 	});
 
     it('Plugin deactivate link opens modal', () => {
@@ -33,6 +40,12 @@ describe('Plugin Deactivation Survey', () => {
     });
 
     it('Skip button deactivates plugin', () => {
+        // ignore notifications errors if there are any
+        cy.intercept({
+			method: 'GET',
+			url: /newfold-notifications/,
+		}, { body: {} });
+
         // reopen modal
         cy.get('.deactivate a[id*="' + Cypress.env('pluginId') + '"]').click();
         // skip & deactivate functions
@@ -53,6 +66,11 @@ describe('Plugin Deactivation Survey', () => {
 
 
     it('Survey successfully deactivates plugin', () => {
+        // ignore notifications errors if there are any
+        cy.intercept({
+			method: 'GET',
+			url: /newfold-notifications/,
+		}, { body: {} });
         cy.intercept({
 			method: 'POST',
 			url: /newfold-data(\/|%2F)v1(\/|%2F)events/,
@@ -79,4 +97,4 @@ describe('Plugin Deactivation Survey', () => {
         cy.wait(500);
     });
 
-})
+});
