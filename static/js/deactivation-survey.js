@@ -127,10 +127,11 @@
             body: JSON.stringify({
                 action: 'deactivation_survey_freeform',
                 data: {
-                    label_key: surveyInput.length > 0 ? surveyInput : 'No input',
-                    category: 'user_action',
-                    brand: runtimeData.brand,
-                    page: window.location.href
+                    'label_key': 'survey_input',
+                    'survey_input': surveyInput.length > 0 ? surveyInput : 'No input',
+                    'category': 'user_action',
+                    'brand': runtimeData.brand,
+                    'page': window.location.href
                 }
             })
         });
