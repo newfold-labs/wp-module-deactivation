@@ -70,8 +70,8 @@ class DeactivationSurvey {
 				'pluginSlug'     => $plugin_slug,
 				'strings'        => array(
 					'surveyTitle'     => __( 'Plugin Deactivation Survey', 'wp-module-deactivation' ),
-					'dialogTitle'     => __( 'Thank You for Using the ' . ucwords( container()->plugin()->id ) . ' Plugin!', 'wp-module-deactivation' ),
-					'dialogDesc'      => sprintf( __( 'Thank you for using the %s plugin!', 'wp-module-deactivation' ), ucwords( container()->plugin()->id ) ),
+					'dialogTitle'     => sprintf( __( 'Thank you for using the %s plugin!', 'wp-module-deactivation' ), ucwords( container()->plugin()->id ) ),
+					'dialogDesc'      => __( 'Please take a moment to let us know why you\'re deactivating this plugin.', 'wp-module-deactivation' ),
 					'formAriaLabel'   => __( 'Plugin Deactivation Form', 'wp-module-deactivation' ),
 					'label'           => __( 'Why are you deactivating this plugin?', 'wp-module-deactivation' ),
 					'placeholder'     => __( 'Please share the reason here...', 'wp-module-deactivation' ),
