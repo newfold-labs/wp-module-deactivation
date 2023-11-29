@@ -109,15 +109,36 @@
         });
     }
 
-    const submitSurvey = async () => {
+    const submitSurvey = async (skipped = false) => {
         isSubmitting();
-        const surveyInput = document.getElementById('nfd-deactivation-survey__input').value;
+
+        let surveyInput = 'No input';
+        if (!skipped) {
+            inputValue = document.getElementById('nfd-deactivation-survey__input').value;
+            if (inputValue.length > 0) {
+                surveyInput = inputValue;
+            }
+        }
+
         // Send event
         const send = await sendEvent(surveyInput);
         deactivatePlugin();
     }
 
     const sendEvent = async (surveyInput) => {
+        let eventData = {
+            'label_key': 'survey_input',
+            'survey_input': surveyInput,
+            'category': 'user_action',
+            'brand': runtimeData.brand,
+            'page': window.location.href
+        }
+
+        // Attach abTestPluginHome flag value if exists
+        if (typeof getABTestPluginHome() === 'boolean') {
+            eventData.abTestPluginHome = getABTestPluginHome();
+        }
+
         await fetch(runtimeData.eventsEndpoint, {
             method: 'POST',
             headers: {
@@ -126,16 +147,16 @@
             },
             body: JSON.stringify({
                 action: 'deactivation_survey_freeform',
-                data: {
-                    'label_key': 'survey_input',
-                    'survey_input': surveyInput.length > 0 ? surveyInput : 'No input',
-                    'category': 'user_action',
-                    'brand': runtimeData.brand,
-                    'page': window.location.href
-                }
+                data: eventData
             })
         });
         return true;
+    }
+
+    const getABTestPluginHome = () => {
+        const { NewfoldRuntime } = window;
+
+        return NewfoldRuntime?.capabilities?.abTestPluginHome;
     }
 
     // Attach events listeners
@@ -162,7 +183,7 @@
             // Skip listener
             if (e.target.hasAttribute('nfd-deactivation-survey-skip')) {
                 e.preventDefault();
-                deactivatePlugin();
+                submitSurvey(true);
             }
         });
     })
