@@ -134,8 +134,9 @@
             'page': window.location.href
         }
 
-        if (getABTestPluginHome()) {
-            eventData.abTestPluginHome = true;
+        // Attach abTestPluginHome flag value if exists
+        if (typeof getABTestPluginHome() === 'boolean') {
+            eventData.abTestPluginHome = getABTestPluginHome();
         }
 
         await fetch(runtimeData.eventsEndpoint, {
@@ -155,9 +156,7 @@
     const getABTestPluginHome = () => {
         const { NewfoldRuntime } = window;
 
-        return (
-            NewfoldRuntime?.capabilities?.abTestPluginHome === true
-        );
+        return NewfoldRuntime?.capabilities?.abTestPluginHome;
     }
 
     // Attach events listeners
