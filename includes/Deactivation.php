@@ -58,6 +58,7 @@ class Deactivation {
 	 */
 	public function site_launched_event() {
 		$coming_soon_service = $this->container->has( 'comingSoon' ) ? $this->container->get( 'comingSoon' ) : null;
+		// Verify that the coming soon page is active.
 		if ( $coming_soon_service && $coming_soon_service->is_enabled() ) {
 			$site_launch_event = new Events\SiteLaunched();
 			$site_launch_event->send();
