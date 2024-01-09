@@ -12,7 +12,7 @@ namespace NewfoldLabs\WP\Module\Deactivation\Events;
  */
 class SiteLaunched extends Event {
 	/**
-	 * Constructor.
+	 * send event.
 	 * 
 	 * @return void
 	 */
@@ -21,7 +21,7 @@ class SiteLaunched extends Event {
 		$this->data   = array(
 			'ttl' => $this->getInstallTime(),
 		);
-		
+
 		return $this->sendEvent();
 	}
 

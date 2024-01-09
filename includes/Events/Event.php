@@ -64,7 +64,7 @@ class Event {
 	/**
 	 * Send the event to the data module endpoint.
 	 *
-	 * @return void
+	 * @return WP_REST_Response REST response
 	 */
 	public function sendEvent() {
 		$event = array(
@@ -73,8 +73,8 @@ class Event {
 			'data'     => $this->data,
 			'queue'    => false,
 		);
-
-		$request = $this->request->set_body_params( $event );
-		rest_do_request( $request );
+		
+		$this->request->set_body( wp_json_encode( $event ) );
+		return rest_do_request( $this->request );
 	}
 }

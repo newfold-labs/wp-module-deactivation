@@ -47,7 +47,11 @@ class Deactivation {
 	 * @return void
 	 */
 	public function handle() {
-		$this->site_launched_event();
+		/*
+		 * The data module is currently handing the 'site_launched' event.
+		 * We are commenting out the code below but keeping it as example for future events.
+		 */
+		// $this->site_launched_event();
 		$this->disable_coming_soon();
 	}
 
