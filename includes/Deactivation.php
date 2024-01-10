@@ -47,26 +47,7 @@ class Deactivation {
 	 * @return void
 	 */
 	public function handle() {
-		/*
-		 * The data module is currently handing the 'site_launched' event.
-		 * We are commenting out the code below but keeping it as example for future events.
-		 */
-		// $this->site_launched_event();
 		$this->disable_coming_soon();
-	}
-
-	/**
-	 * Send site launched event.
-	 *
-	 * @return void
-	 */
-	public function site_launched_event() {
-		$coming_soon_service = $this->container->has( 'comingSoon' ) ? $this->container->get( 'comingSoon' ) : null;
-		// Verify that the coming soon page is active.
-		if ( $coming_soon_service && $coming_soon_service->is_enabled() ) {
-			$site_launch_event = new Events\SiteLaunched();
-			$site_launch_event->send();
-		}
 	}
 
 	/**
