@@ -78,11 +78,6 @@ describe( 'Plugin Deactivation Survey', () => {
 		cy.get( '.activate a[id*="' + Cypress.env( 'pluginId' ) + '"]' ).should(
 			'exist'
 		);
-		// reactivate plugin
-		cy.get(
-			'.activate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
-		).click();
-		cy.wait( 500 );
 	} );
 
 	it( 'Survey successfully deactivates plugin', () => {
@@ -123,10 +118,25 @@ describe( 'Plugin Deactivation Survey', () => {
 		cy.get( '.activate a[id*="' + Cypress.env( 'pluginId' ) + '"]' ).should(
 			'exist'
 		);
-		// reactivate plugin
-		cy.get(
-			'.activate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
-		).click();
-		cy.wait( 500 );
 	} );
+
+	// Reactivate plugin after each test.
+	// This function will always run, even when a test fails.
+	afterEach(() => {
+		cy.visit('/wp-admin/plugins.php');
+
+		// ignore notifications errors if there are any
+		cy.intercept({
+			method: 'GET',
+			url: /newfold-notifications/,
+		}, { body: {} });
+
+		cy.get('.activate a[id*="' + Cypress.env('pluginId') + '"]').then(($activateButton) => {
+			var href = $activateButton.attr('href');
+			if(href) {
+				cy.visit('/wp-admin/' + href);
+			}
+		})
+		cy.get('.deactivate a[id*="' + Cypress.env('pluginId') + '"]').should('exist');
+	});
 } );
