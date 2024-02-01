@@ -131,12 +131,14 @@ describe( 'Plugin Deactivation Survey', () => {
 			url: /newfold-notifications/,
 		}, { body: {} });
 
-		cy.get('.activate a[id*="' + Cypress.env('pluginId') + '"]').then(($activateButton) => {
-			var href = $activateButton.attr('href');
-			if(href) {
-				cy.visit('/wp-admin/' + href);
-			}
-		})
+		if(cy.find('.activate a[id*="' + Cypress.env('pluginId') + '"]')) {
+			cy.get('.activate a[id*="' + Cypress.env('pluginId') + '"]').then(($activateButton) => {
+				var href = $activateButton.attr('href');
+				if (href) {
+					cy.visit('/wp-admin/' + href);
+				}
+			})
+		}
 		cy.get('.deactivate a[id*="' + Cypress.env('pluginId') + '"]').should('exist');
 	});
 } );
