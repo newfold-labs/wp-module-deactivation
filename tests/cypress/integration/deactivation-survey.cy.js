@@ -130,3 +130,7 @@ describe( 'Plugin Deactivation Survey', () => {
 		cy.wait( 500 );
 	} );
 } );
+
+after(()=>{
+	cy.exec( `npx wp-env run cli wp plugin activate ${ Cypress.env( 'pluginSlug' ) }` );
+});
