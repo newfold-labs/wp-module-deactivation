@@ -81,6 +81,7 @@ class DeactivationSurvey {
 					'cancelAriaLabel' => __( 'Cancel Deactivation', 'wp-module-deactivation' ),
 					'skip'            => __( 'Skip & Deactivate', 'wp-module-deactivation' ),
 					'skipAriaLabel'   => __( 'Skip and Deactivate Plugin', 'wp-module-deactivation' ),
+					'sureTitle'       => __( 'Are You Sure?', 'wp-module-deactivation' ),
 				),
 			)
 		);
