@@ -80,7 +80,7 @@
 					</div>
 					<div class="nfd-deactivation__body">
 						<fieldset class="nfd-deactivation-fieldset">
-							<label for="nfd-deactivation-survey__input">${ runtimeData.strings.label }</label>
+							<label for="nfd-deactivation-survey__input" class="nfd-deactivation-label">${ runtimeData.strings.label }</label>
 							<textarea id="nfd-deactivation-survey__input" class="nfd-deactivation-textarea" placeholder="${ runtimeData.strings.placeholder }"></textarea>
 						</fieldset>
 					</div>

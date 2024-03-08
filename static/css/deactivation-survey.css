@@ -146,15 +146,23 @@
 
 
 .nfd-deactivation-fieldset {
+    border-top: 1px solid #dcdcde;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
     max-width: 800px;
+    padding-top: 1rem;
     text-align: left;
-    gap: .5rem;
+    gap: .75rem;
 }
 
+.nfd-deactivation-label {
+    font-size: 1rem;
+    font-weight: 600;
+}
 .nfd-deactivation-textarea {
+    font-size: 1rem;
+    padding: .5em;
     min-height: 10vh;
     width: 100%;
 }
