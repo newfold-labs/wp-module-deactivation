@@ -29,23 +29,39 @@
 
 	const getSureContent = () => {
 		const content = `
-			<div class="nfd-deactivation-sure__content">
-                <h1 id="nfd-deactivation-sure-title">${ runtimeData.strings.sureTitle }</h1>
-                <div class="nfd-deactivation-sure__content-header">
-                    <p>This plugin is currently powering features on your site. If you deactivate, these features will no longer be available.</p>
-                    <ul style="list-style: disc; list-style-position: inside;">
-						<li>Integrations with your hosting</li>
-						<li>Performance Improvements</li>
-						<li>Wonder Blocks</li>
-					</ul>
-
+			<div class="nfd-deactivation-sure nfd-deactivation__content">
+				<div class="nfd-deactivation__header">
+					<h1 class="nfd-deactivation__content-title">${ runtimeData.strings.sureTitle }</h1>
+                    <p class="nfd-deactivation__content-subtitle">This plugin is powers important features on your site. These will no longer be available if you deactivate the plugin.</p>
+				</div>
+				<div class="nfd-deactivation__body">
+                    <div class="nfd-deactivation__cards">
+						<div class="nfd-deactivation__card">Hosting integrations</div>
+						<div class="nfd-deactivation__card">Performance Improvements</div>
+						<div class="nfd-deactivation__card">Staging Site Support</div>
+						<div class="nfd-deactivation__card">Wonder Blocks</div>
+						<div class="nfd-deactivation__card">Integrated AI Help Center</div>
+					</div>
+				</div>
+				<div class="nfd-deactivation__footer"><div class="nfd-deactivation__footer-content">
 					<div class="nfd-deactivation-survey__content-actions">
-						<div>
-							<button type="button" nfd-deactivation-survey-next class="nfd-button nfd-button-seconday nfd-deactivation-survey-action" aria-label="${ runtimeData.strings.submitAriaLabel }">Continue</button>
-							<button type="button" class="nfd-button nfd-button-primary nfd-deactivation-survey-action" nfd-deactivation-survey-destroy aria-label="${ runtimeData.strings.cancelAriaLabel }">${ runtimeData.strings.cancel }</button>
+						<div class="nfd-deactivation__helptext" "style="text-align:left">
+							<p><b>Need Help?</b> Learn more about <a href="#" target="_blank" nfd-deactivation-survey-destroy>the features of this plugin</a>, check the <a href="#">help center</a>, or <a href="#">contact support</a>.</p>
+						</div>
+						<div class="nfd-deactivation-survey__content-buttons">
+							<button type="button" nfd-deactivation-survey-destroy
+								class="button button-primary" 
+								aria-label="${ runtimeData.strings.cancelAriaLabel }">
+								${ runtimeData.strings.cancel }
+							</button>
+							<button type="button" nfd-deactivation-survey-next 
+								class="button button-seconday" 
+								aria-label="${ runtimeData.strings.submitAriaLabel }">
+								Continue
+							</button>
 						</div>
 					</div>
-                </div>
+                </div></div>
             </div>
 		`;
 		return content;
@@ -53,15 +69,31 @@
 
 	const getSurveyContent = () => {
 		const content = `
-			<div class="nfd-deactivation-survey__content nfd-hidden" aria-hidden="true">
-                <h1 id="nfd-deactivation-survey-title" class="nfd-hidden" aria-hidden="true">${
-					runtimeData.strings.surveyTitle
-				}</h1>
-                <div class="nfd-deactivation-survey__content-header">
-                    <h3>${ runtimeData.strings.dialogTitle }</h3>
-                    <p>${ runtimeData.strings.dialogDesc }</p>
-                </div>
-                ${ getSurveyFormHTML() }
+			<div class="nfd-deactivation-survey nfd-deactivation__content nfd-hidden" aria-hidden="true">
+				<form class="nfd-deactivation-form" aria-label="${ runtimeData.strings.formAriaLabel }">
+					<div class="nfd-deactivation__header">
+						<h1 id="nfd-deactivation-survey-title" class="nfd-hidden" aria-hidden="true">
+							${ runtimeData.strings.surveyTitle }
+						</h1>
+						<h3 class="nfd-deactivation__content-subtitle">${ runtimeData.strings.dialogTitle }</h3>
+						<p class="nfd-deactivation__content-subtitle">${ runtimeData.strings.dialogDesc }</p>
+					</div>
+					<div class="nfd-deactivation__body">
+						<fieldset class="nfd-deactivation-fieldset">
+							<label for="nfd-deactivation-survey__input">${ runtimeData.strings.label }</label>
+							<textarea id="nfd-deactivation-survey__input" class="nfd-deactivation-textarea" placeholder="${ runtimeData.strings.placeholder }"></textarea>
+						</fieldset>
+					</div>
+					<div class="nfd-deactivation__footer"><div class="nfd-deactivation__footer-content nfd-deactivation-survey__content-actions">
+						<div>
+							<button type="button" class="button button-secondary" nfd-deactivation-survey-destroy aria-label="${ runtimeData.strings.cancelAriaLabel }">${ runtimeData.strings.cancel }</button>
+						</div>
+						<div class="nfd-deactivation-survey__content-actions">
+							<button type="button" class="nfd-deactivation-survey-action" nfd-deactivation-survey-skip aria-label="${ runtimeData.strings.skipAriaLabel }">${ runtimeData.strings.skip }</button>
+							<input type="submit" value="${ runtimeData.strings.submit }" nfd-deactivation-survey-submit class="button button-primary" aria-label="${ runtimeData.strings.submitAriaLabel }"/>
+						</div>
+					</div></div>
+				</form>
                 <span class="nfd-deactivation-survey_loading nfd-hidden"></span>
             </div>
 		`;
@@ -71,32 +103,11 @@
 	const getDialogHTML = () => {
 		const content = `
 			<div class="nfd-deactivation-survey__overlay" nfd-deactivation-survey-destroy></div>
-			<div class="nfd-deactivation-survey__container" role="document">
+			<div class="nfd-deactivation-survey__container" role="document" data-step="1">
 				${ getSureContent() }
 				${ getSurveyContent() }
 			</div>
 			<div class="nfd-deactivation-survey__disabled nfd-hidden"></div>
-        `;
-		return content;
-	};
-
-	const getSurveyFormHTML = () => {
-		const content = `
-			<form aria-label="${ runtimeData.strings.formAriaLabel }">
-				<fieldset>
-					<label for="nfd-deactivation-survey__input">${ runtimeData.strings.label }</label>
-					<textarea id="nfd-deactivation-survey__input" placeholder="${ runtimeData.strings.placeholder }"></textarea>
-				</fieldset>
-				<div class="nfd-deactivation-survey__content-actions">
-					<div>
-						<input type="submit" value="${ runtimeData.strings.submit }" nfd-deactivation-survey-submit class="button button-primary" aria-label="${ runtimeData.strings.submitAriaLabel }"/>
-						<button type="button" class="nfd-deactivation-survey-action" nfd-deactivation-survey-destroy aria-label="${ runtimeData.strings.cancelAriaLabel }">${ runtimeData.strings.cancel }</button>
-					</div>
-					<div>
-						<button type="button" class="nfd-deactivation-survey-action" nfd-deactivation-survey-skip aria-label="${ runtimeData.strings.skipAriaLabel }">${ runtimeData.strings.skip }</button>
-					</div>
-				</div>
-			</form>
         `;
 		return content;
 	};
@@ -208,12 +219,14 @@
 	};
 
 	const showSurvey = () => {
-		const sure = document.querySelector(
-			'.nfd-deactivation-sure__content'
+		const container = document.querySelector(
+			'.nfd-deactivation-survey__container'
 		);
-		const survey = document.querySelector(
-			'.nfd-deactivation-survey__content'
-		);
+		const sure = document.querySelector( '.nfd-deactivation-sure' );
+		const survey = document.querySelector( '.nfd-deactivation-survey' );
+		// update container with data setp 2
+		container.setAttribute( 'data-step', '2' );
+
 		// hide interstitial are you sure page
 		sure.classList.add( 'nfd-hidden' );
 		sure.setAttribute( 'aria-hidden', true );
