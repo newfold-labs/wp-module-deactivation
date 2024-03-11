@@ -27,26 +27,34 @@
 		deactivationSurveyDialog.show();
 	};
 
+	const getSureCards = () => {
+		return runtimeData.strings.sureCards
+			.map( ( card ) => {
+				return `<div class="nfd-deactivation__card">${ card }</div>`;
+			} )
+			.join( '' );
+	};
+
 	const getSureContent = () => {
 		const content = `
 			<div class="nfd-deactivation-sure nfd-deactivation__content">
 				<div class="nfd-deactivation__header">
-					<h1 class="nfd-deactivation__content-title">${ runtimeData.strings.sureTitle }</h1>
-                    <p class="nfd-deactivation__content-subtitle">This plugin is powers important features on your site. These will no longer be available if you deactivate the plugin.</p>
+					<h1 class="nfd-deactivation__content-title">${
+						runtimeData.strings.sureTitle
+					}</h1>
+                    <p class="nfd-deactivation__content-subtitle">${
+						runtimeData.strings.sureDesc
+					}</p>
 				</div>
 				<div class="nfd-deactivation__body">
                     <div class="nfd-deactivation__cards">
-						<div class="nfd-deactivation__card">Hosting integrations</div>
-						<div class="nfd-deactivation__card">Performance Improvements</div>
-						<div class="nfd-deactivation__card">Staging Site Support</div>
-						<div class="nfd-deactivation__card">Wonder Blocks</div>
-						<div class="nfd-deactivation__card">Integrated AI Help Center</div>
+						${ getSureCards() }
 					</div>
 				</div>
 				<div class="nfd-deactivation__footer"><div class="nfd-deactivation__footer-content">
 					<div class="nfd-deactivation-survey__content-actions">
 						<div class="nfd-deactivation__helptext" "style="text-align:left">
-							<p><b>Need Help?</b> Learn more about <a href="#" target="_blank" nfd-deactivation-survey-destroy>the features of this plugin</a>, check the <a href="#">help center</a>, or <a href="#">contact support</a>.</p>
+							<p>${ runtimeData.strings.sureHelp }</p>
 						</div>
 						<div class="nfd-deactivation-survey__content-buttons">
 							<button type="button" nfd-deactivation-survey-destroy
@@ -56,8 +64,8 @@
 							</button>
 							<button type="button" nfd-deactivation-survey-next 
 								class="button button-seconday" 
-								aria-label="${ runtimeData.strings.submitAriaLabel }">
-								Continue
+								aria-label="${ runtimeData.strings.continueAriaLabel }">
+								${ runtimeData.strings.continue }
 							</button>
 						</div>
 					</div>
@@ -73,10 +81,10 @@
 				<form class="nfd-deactivation-form" aria-label="${ runtimeData.strings.formAriaLabel }">
 					<div class="nfd-deactivation__header">
 						<h1 id="nfd-deactivation-survey-title" class="nfd-hidden" aria-hidden="true">
-							${ runtimeData.strings.surveyTitle }
+							${ runtimeData.strings.surveyAriaTitle }
 						</h1>
-						<h3 class="nfd-deactivation__content-subtitle">${ runtimeData.strings.dialogTitle }</h3>
-						<p class="nfd-deactivation__content-subtitle">${ runtimeData.strings.dialogDesc }</p>
+						<h2 class="nfd-deactivation__content-title">${ runtimeData.strings.surveyTitle }</h2>
+						<p class="nfd-deactivation__content-subtitle">${ runtimeData.strings.surveyDesc }</p>
 					</div>
 					<div class="nfd-deactivation__body">
 						<fieldset class="nfd-deactivation-fieldset">
