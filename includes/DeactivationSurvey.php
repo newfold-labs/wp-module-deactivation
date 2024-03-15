@@ -23,7 +23,10 @@ class DeactivationSurvey {
 
 		$defaults = array(
 			'surveyAriaTitle'   => __( 'Plugin Deactivation Survey', 'wp-module-deactivation' ),
-			'surveyTitle'       => sprintf( __( 'Thank you for using the %s plugin!', 'wp-module-deactivation' ), ucwords( container()->plugin()->id ) ),
+			'surveyTitle'       => sprintf( 
+				__( 'Thank you for using the %s plugin!', 'wp-module-deactivation' ), 
+				ucwords( container()->plugin()->id )
+			),
 			'surveyDesc'        => __( 'Please take a moment to let us know why you\'re deactivating this plugin.', 'wp-module-deactivation' ),
 			'formAriaLabel'     => __( 'Plugin Deactivation Form', 'wp-module-deactivation' ),
 			'label'             => __( 'Why are you deactivating this plugin?', 'wp-module-deactivation' ),
@@ -36,25 +39,40 @@ class DeactivationSurvey {
 			'skipAriaLabel'     => __( 'Skip and Deactivate Plugin', 'wp-module-deactivation' ),
 			'continue'          => __( 'Continue', 'wp-module-deactivation' ),
 			'continueAriaLabel' => __( 'Continue Deactivation', 'wp-module-deactivation' ),
-			'sureTitle'         => __( 'Are You Sure?', 'wp-module-deactivation' ),
-			'sureDesc'          => __( 'This plugin is powers important features on your site. These will no longer be available if you deactivate the plugin.', 'wp-module-deactivation' ),
-			'sureHelpTitle'     => __( 'Need Help?', 'wp-module-deactivation' ),
-			'sureHelpUrl1'      => 'https://bluehost.com/',
-			'sureHelpUrl2'      => 'https://bluehost.com/',
-			'sureHelpUrl3'      => 'https://bluehost.com/',
+			'sureTitle'         => __( 'Are you sure you want to deactivate?', 'wp-module-deactivation' ),
+			'sureDesc'          => __( 'If the Bluehost plugin is deactivated, these features will no longer work:', 'wp-module-deactivation' ),
 			'sureCards'         => array(
-				__( 'Performance Improvements' ),
-				__( 'Wonder Blocks Patters' ),
-				__( 'Security Improvements' ),
-				__( 'Integrated AI Help Center' ),
+				array(
+					'title' => sprintf( 
+						__( '%s Caching', 'wp-module-deactivation' ), 
+						ucwords( container()->plugin()->id )
+					),
+					'desc'  => __( 'Automatically clears the server page cache when your site updates', 'wp-module-deactivation' ),
+					'condition' => true,
+				),
+				array(
+					'title' => sprintf(
+						__( '%s Staging', 'wp-module-deactivation' ), 
+						ucwords( container()->plugin()->id )
+					),
+					'desc'  => __( 'Create a staging copy of your site to safely test changes', 'wp-module-deactivation' ),
+					'condition' => true,
+				),
+				array(
+					'title' => __( 'WooCommerce Tools', 'wp-module-deactivation' ),
+					'desc'  => __( 'Run campaigns and promotions on your store', 'wp-module-deactivation' ),
+					'condition' => 'window.NewfoldRuntime.isWoocommerceActive',
+				),
+				array(
+					'title' => __( 'Wonder Blocks & Patterns Library', 'wp-module-deactivation' ),
+					'desc'  => __( 'Dozens of beautiful block templates and patterns', 'wp-module-deactivation' ),
+					'condition' => true,
+				),
 			),
-		);
-
-		$defaults['sureHelp'] = sprintf( 
-			__( 'Learn more about <a href="%1$s" target="_blank" nfd-deactivation-survey-destroy>the features of this plugin</a>, check the <a href="%2$s" onclick="newfoldEmbeddedHelp.toggleNFDLaunchedEmbeddedHelp()">help center</a>, or <a href="%3$s">contact support</a>.' ),
-			$defaults['sureHelpUrl1'],
-			$defaults['sureHelpUrl2'],
-			$defaults['sureHelpUrl3']
+			'sureHelp'     => sprintf( 
+				__( 'Need Help? Check the <a href="%s">help center</a> for support.', 'wp-module-deactivation' ),
+				'/wp-admin/admin.php?page=' . container()->plugin()->id . '#/help'
+			),
 		);
 
 		// Merge defaults with container values from plugin
@@ -107,6 +125,8 @@ class DeactivationSurvey {
 	 */
 	public function deactivation_survey_runtime() {
 		$plugin_slug = explode( '/', container()->plugin()->basename )[0];
+
+		// Validate strings->cards via condition
 
 		wp_localize_script(
 			'nfd-deactivation-survey',

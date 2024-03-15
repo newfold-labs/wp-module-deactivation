@@ -30,7 +30,14 @@
 	const getSureCards = () => {
 		return runtimeData.strings.sureCards
 			.map( ( card ) => {
-				return `<div class="nfd-deactivation__card">${ card }</div>`;
+				if ( card.condition !== true && ! eval( card.condition ) ) {
+					return '';
+				}
+
+				return `<div class="nfd-deactivation__card">
+					<span class="nfd-deactivation__card-title">${ card.title }</span>
+					<span class="nfd-deactivation__card-desc">${ card.desc }</span>
+				</div>`;
 			} )
 			.join( '' );
 	};
