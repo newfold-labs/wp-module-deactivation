@@ -1,9 +1,16 @@
 // <reference types="Cypress" />
 
 describe( 'Plugin Deactivation Survey', () => {
+	let newfoldDeactivationSurvey;
+
 	before( () => {
 		cy.visit( '/wp-admin/plugins.php' );
 
+		cy.window()
+			.its( 'newfoldDeactivationSurvey' )
+			.then( ( data ) => {
+				newfoldDeactivationSurvey = data;
+			} );
 		// ignore notifications errors if there are any
 		cy.intercept(
 			{
@@ -14,10 +21,10 @@ describe( 'Plugin Deactivation Survey', () => {
 		);
 	} );
 
-	it( 'Plugin deactivate link opens modal', () => {
+	it( 'Plugin deactivate link opens modal, clicking out closes modal', () => {
 		// body does not have no scroll class
 		cy.get( 'body' ).should( 'not.have.class', 'nfd-noscroll' );
-		cy.get( '.nfd-deactivation-survey__content' ).should( 'not.exist' );
+		cy.get( '.nfd-deactivation-survey__container' ).should( 'not.exist' );
 
 		// click link
 		cy.get(
@@ -28,22 +35,49 @@ describe( 'Plugin Deactivation Survey', () => {
 		cy.get( 'body' ).should( 'have.class', 'nfd-noscroll' );
 
 		// modal exists
-		cy.get( '.nfd-deactivation-survey__content' )
+		cy.get( '.nfd-deactivation-survey__container' )
 			.scrollIntoView()
 			.should( 'be.visible' );
-	} );
 
-	it( 'Cancel button exists and exits modal', () => {
-		cy.get( 'button[nfd-deactivation-survey-destroy]' ).should(
-			'be.visible'
-		);
-		cy.get( 'button[nfd-deactivation-survey-destroy]' ).click();
+		// overlay exists
+		cy.get( '.nfd-deactivation-survey__overlay' ).should( 'exist' );
+
+		cy.get( '.nfd-deactivation-survey__overlay' ).click( { force: true } );
 
 		cy.get( 'body' ).should( 'not.have.class', 'nfd-noscroll' );
 		cy.get( '.nfd-deactivation-survey__content' ).should( 'not.exist' );
 	} );
 
-	it( 'Skip button deactivates plugin', () => {
+	it( 'Are You Sure Interstitial exists, cancel button exits modal', () => {
+		// click link to open modal
+		cy.get(
+			'.deactivate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
+		).click();
+
+		cy.get( '.nfd-deactivation-sure .nfd-deactivation__content-title' ).should( 'be.visible' );
+		cy.get( '.nfd-deactivation-sure .nfd-deactivation__content-subtitle' ).should( 'be.visible' );
+		cy.get( '.nfd-deactivation-sure .nfd-deactivation__cards' ).should( 'be.visible' );
+		cy.get( '.nfd-deactivation-sure .nfd-deactivation__helptext' ).should( 'be.visible' );
+
+		// Check content matches deactivation runtime data
+		cy.get(
+			'.nfd-deactivation-sure .nfd-deactivation__content-title'
+		).contains( newfoldDeactivationSurvey.strings.sureTitle );
+
+		cy.get( 'button[nfd-deactivation-survey-destroy]' ).should(
+			'be.visible'
+		);
+		cy.get( 'button[nfd-deactivation-survey-next]' ).should( 'be.visible' );
+
+		cy.get(
+			'.nfd-deactivation-sure button[nfd-deactivation-survey-destroy]'
+		).click();
+
+		cy.get( 'body' ).should( 'not.have.class', 'nfd-noscroll' );
+		cy.get( '.nfd-deactivation-survey__content' ).should( 'not.exist' );
+	} );
+
+	it( 'Continue button exists and advances to survey, skip button functions', () => {
 		// ignore notifications errors if there are any
 		cy.intercept(
 			{
@@ -57,12 +91,14 @@ describe( 'Plugin Deactivation Survey', () => {
 			url: /newfold-data(\/|%2F)v1(\/|%2F)events/,
 		} ).as( 'surveyEvent' );
 
-		// reopen modal
+		// click link to open modal
 		cy.get(
 			'.deactivate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
 		).click();
-		// skip & deactivate functions
 
+		cy.get( 'button[nfd-deactivation-survey-next]' ).click();
+
+		// skip & deactivate functions
 		cy.get( 'button[nfd-deactivation-survey-skip]' ).should( 'be.visible' );
 		cy.get( 'button[nfd-deactivation-survey-skip]' ).click();
 		cy.wait( '@surveyEvent' )
@@ -70,7 +106,7 @@ describe( 'Plugin Deactivation Survey', () => {
 			.its( 'request.body.data.survey_input' )
 			.should( 'eq', 'No input' );
 		// verify modal closed
-		cy.get( '.nfd-deactivation-survey__content' ).should( 'not.exist' );
+		cy.get( '.nfd-deactivation-survey__container' ).should( 'not.exist' );
 		// verify plugin is deactivated
 		cy.get(
 			'.deactivate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
@@ -99,10 +135,13 @@ describe( 'Plugin Deactivation Survey', () => {
 			url: /newfold-data(\/|%2F)v1(\/|%2F)events/,
 		} ).as( 'surveyEvent' );
 
-		// reopen modal
+		// click link to open modal
 		cy.get(
 			'.deactivate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
 		).click();
+
+		cy.get( 'button[nfd-deactivation-survey-next]' ).click();
+
 		// can enter reason
 		const ugcReason = 'automated testing';
 		cy.get( '#nfd-deactivation-survey__input' ).type( ugcReason );
