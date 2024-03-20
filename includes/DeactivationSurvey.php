@@ -24,7 +24,7 @@ class DeactivationSurvey {
 		$defaults = array(
 			'surveyAriaTitle'   => __( 'Plugin Deactivation Survey', 'wp-module-deactivation' ),
 			'surveyTitle'       => sprintf( 
-				__( 'Thank you for using the %s plugin!', 'wp-module-deactivation' ), 
+				__( 'Thank you for using the %s plugin!', 'wp-module-deactivation' ),
 				ucwords( container()->plugin()->id )
 			),
 			'surveyDesc'        => __( 'Please take a moment to let us know why you\'re deactivating this plugin.', 'wp-module-deactivation' ),
@@ -40,7 +40,10 @@ class DeactivationSurvey {
 			'continue'          => __( 'Continue', 'wp-module-deactivation' ),
 			'continueAriaLabel' => __( 'Continue Deactivation', 'wp-module-deactivation' ),
 			'sureTitle'         => __( 'Are you sure you want to deactivate?', 'wp-module-deactivation' ),
-			'sureDesc'          => __( 'If the Bluehost plugin is deactivated, these features will no longer work:', 'wp-module-deactivation' ),
+			'sureDesc'          => sprintf( 
+				__( 'If the %s plugin is deactivated, these features will no longer work:', 'wp-module-deactivation' ),
+				ucwords( container()->plugin()->id )
+			),
 			'sureCards'         => array(
 				array(
 					'title' => sprintf( 
