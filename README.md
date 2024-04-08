@@ -6,7 +6,7 @@ A module for handling WordPress brand plugins and modules deactivations.
 - Display a modal/popup when a user attemps to deactivate the brand plugin on plugins.php page.
 - The modal contains two steps. The first one, will bring the user's attention to all the features that brand plugin adds to their site. And the second step is a survey form asking the user for the reason they're deactivating the plugin.
 - When the survey is submitted, the response is captured for analytics.
-- When the brand plugin is deactivated, the moduel will set the coming soon option in the database.
+- When the brand plugin is deactivated, the module will set the coming soon option in the database.
 
 ## Critical Paths
 
