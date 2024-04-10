@@ -15,11 +15,14 @@ use function NewfoldLabs\WP\ModuleLoader\container;
  */
 class DeactivationSurvey {
 
+	// public $container;
+	public $strings;
+
 	/**
 	 * DeactivationSurvey constructor.
 	 */
 	public function __construct() {
-		// $this->container = $container;
+		// $this->container = container();
 
 		$defaults = array(
 			'surveyAriaTitle'   => __( 'Plugin Deactivation Survey', 'wp-module-deactivation' ),
@@ -80,8 +83,8 @@ class DeactivationSurvey {
 
 		// Merge defaults with container values from plugin
 		// $this->strings = wp_parse_args(
-		// 	$container->has( 'deactivation' ) ? 
-		// 	$container['deactivation'] : 
+		// 	$this->container->has( 'deactivation' ) ? 
+		// 	$this->container['deactivation'] : 
 		// 	array(), 
 		// 	$defaults
 		// );
