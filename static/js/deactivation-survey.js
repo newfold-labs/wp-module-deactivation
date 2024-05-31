@@ -105,6 +105,11 @@
 						</div>
 						<div class="nfd-deactivation-survey__content-actions">
 							<button type="button" class="nfd-deactivation-survey-action" nfd-deactivation-survey-skip aria-label="${ runtimeData.strings.skipAriaLabel }">${ runtimeData.strings.skip }</button>
+							<select id="deactivation-duration" name="deactivation_duration" class="nfd-deactivation-duration">
+								<option value=${ runtimeData.strings.durationOption1Value }>${ runtimeData.strings.durationOption1 }</option>
+								<option value=${ runtimeData.strings.durationOption2Value }>${ runtimeData.strings.durationOption2 }</option>
+								<option value=${ runtimeData.strings.durationOption3Value } selected>${ runtimeData.strings.durationOption3 }</option>
+							</select>
 							<input type="submit" value="${ runtimeData.strings.submit }" nfd-deactivation-survey-submit class="button button-primary" aria-label="${ runtimeData.strings.submitAriaLabel }"/>
 						</div>
 					</div></div>
@@ -185,6 +190,7 @@
 		isSubmitting();
 
 		let surveyInput = 'No input';
+		let deactivationDuration = '';
 		if ( ! skipped ) {
 			const inputValue = document.getElementById(
 				'nfd-deactivation-survey__input'
@@ -192,27 +198,32 @@
 			if ( inputValue.length > 0 ) {
 				surveyInput = inputValue;
 			}
+			deactivationDuration = document.getElementById(
+				'deactivation-duration'
+			).value;
 		}
 
 		// Send event
-		const send = await sendEvent( surveyInput );
+		const sendSurveyInput = await sendEvent( surveyInput,'');
+		const sendDeactivationDuration = await sendEvent( '', deactivationDuration);
 		deactivatePlugin();
 	};
 
-	const sendEvent = async ( surveyInput ) => {
+	const sendEvent = async ( surveyInput = '', deactivationDuration = '' ) => {
 		const eventData = {
-			label_key: 'survey_input',
-			survey_input: surveyInput,
+			label_key: surveyInput ? 'survey_input' : 'deactivation_duration',
 			category: 'user_action',
 			brand: runtimeData.brand,
 			page: window.location.href,
+			...surveyInput && { survey_input: surveyInput },
+			...deactivationDuration && { deactivation_duration: deactivationDuration },
 		};
 
 		// Attach abTestPluginHome flag value if exists
 		if ( typeof getABTestPluginHome() === 'boolean' ) {
 			eventData.abTestPluginHome = getABTestPluginHome();
 		}
-
+		const actionName = surveyInput ? 'deactivation_survey_freeform' : 'deactivation_duration';
 		await fetch( runtimeData.eventsEndpoint, {
 			method: 'POST',
 			headers: {
@@ -220,7 +231,7 @@
 				'X-WP-Nonce': runtimeData.restApiNonce,
 			},
 			body: JSON.stringify( {
-				action: 'deactivation_survey_freeform',
+				action: actionName,
 				data: eventData,
 			} ),
 		} );
