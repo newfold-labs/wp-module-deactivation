@@ -54,7 +54,7 @@ class DeactivationSurvey {
 						ucwords( container()->plugin()->id )
 					),
 					'desc'  => __( 'Automatically clears the server page cache when your site updates', 'wp-module-deactivation' ),
-					'condition' => true,
+					'condition' => 'window.NewfoldFeatures.features.performance',
 				),
 				array(
 					'title' => sprintf(
@@ -62,7 +62,7 @@ class DeactivationSurvey {
 						ucwords( container()->plugin()->id )
 					),
 					'desc'  => __( 'Create a staging copy of your site to safely test changes', 'wp-module-deactivation' ),
-					'condition' => true,
+					'condition' => 'window.NewfoldFeatures.features.staging',
 				),
 				array(
 					'title' => __( 'WooCommerce Tools', 'wp-module-deactivation' ),
@@ -72,7 +72,7 @@ class DeactivationSurvey {
 				array(
 					'title' => __( 'Wonder Blocks & Patterns Library', 'wp-module-deactivation' ),
 					'desc'  => __( 'Dozens of beautiful block templates and patterns', 'wp-module-deactivation' ),
-					'condition' => true,
+					'condition' => 'window.NewfoldFeatures.features.patterns',
 				),
 			),
 			'sureHelp'     => sprintf( 
@@ -112,7 +112,7 @@ class DeactivationSurvey {
 		wp_enqueue_script(
 			'nfd-deactivation-survey',
 			$assets_dir . 'js/deactivation-survey.js',
-			array( 'nfd-deactivation-a11y-dialog' ),
+			array( 'newfold-features', 'nfd-deactivation-a11y-dialog' ),
 			container()->plugin()->version,
 			true
 		);
