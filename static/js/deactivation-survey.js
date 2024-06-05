@@ -197,8 +197,9 @@
 		}
 
 		// Send event
-		const send = await sendEvent( surveyInput );
-		deactivatePlugin();
+		return await sendEvent( surveyInput ).then( () => {
+			deactivatePlugin();
+		} );
 	};
 
 	const sendEvent = async ( surveyInput ) => {
@@ -215,7 +216,7 @@
 			eventData.abTestPluginHome = getABTestPluginHome();
 		}
 
-		await fetch( runtimeData.eventsEndpoint, {
+		return await fetch( runtimeData.eventsEndpoint, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -226,7 +227,6 @@
 				data: eventData,
 			} ),
 		} );
-		return true;
 	};
 
 	const getABTestPluginHome = () => {
