@@ -183,15 +183,17 @@
 
 	const submitSurvey = async ( skipped = false ) => {
 		isSubmitting();
+		let surveyInput = '';
 
-		let surveyInput = 'No input';
-		if ( ! skipped ) {
-			const inputValue = document.getElementById(
-				'nfd-deactivation-survey__input'
-			).value;
-			if ( inputValue.length > 0 ) {
-				surveyInput = inputValue;
-			}
+		const input = document.getElementById(
+			'nfd-deactivation-survey__input'
+		).value;
+		if ( input.length > 0 ) {
+			surveyInput = input;
+		} else if ( skipped ) {
+			surveyInput = '(Skipped)';
+		} else {
+			surveyInput = '(No Input)';
 		}
 
 		// Send event
