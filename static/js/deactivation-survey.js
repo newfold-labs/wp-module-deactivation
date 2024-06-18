@@ -189,58 +189,94 @@
 	const submitSurvey = async ( skipped = false ) => {
 		isSubmitting();
 
-		let surveyInput = 'No input';
-		let deactivationDuration = '';
-		if ( ! skipped ) {
-			const inputValue = document.getElementById(
-				'nfd-deactivation-survey__input'
-			).value;
-			if ( inputValue.length > 0 ) {
-				surveyInput = inputValue;
-			}
-			deactivationDuration = document.getElementById(
-				'deactivation-duration'
-			).value;
-		}
-
 		// Send event
-		const sendSurveyInput = await sendEvent( surveyInput,'');
-		const sendDeactivationDuration = await sendEvent( '', deactivationDuration);
-		deactivatePlugin();
+		return await sendSurveyEvent( skipped )
+			.then( () => {
+				sendDurationEvent();
+			} )
+			.then( () => {
+				deactivatePlugin();
+			} );
 	};
 
-	const sendEvent = async ( surveyInput = '', deactivationDuration = '' ) => {
+	/**
+	 * Heler to send survey input data
+	 *
+	 * @param {boolean} skipped
+	 * @return {Promise} Promise vis SendEvent
+	 */
+	const sendSurveyEvent = async ( skipped ) => {
+		let surveyInput = skipped ? '(Skipped)' : '(No Input)';
+
+		const input = document.getElementById(
+			'nfd-deactivation-survey__input'
+		).value;
+		if ( input.length > 0 ) {
+			surveyInput = input;
+		}
+
+		return sendEvent(
+			'deactivation_survey_freeform',
+			'survey_input',
+			surveyInput
+		);
+	};
+
+	/**
+	 * Helper to send duration event data
+	 *
+	 * @return {Promise} via SendEvent
+	 */
+	const sendDurationEvent = async () => {
+		const deactivationDuration = document.getElementById(
+			'deactivation-duration'
+		).value;
+
+		return sendEvent(
+			'deactivation_duration_select',
+			'deactivation_duration',
+			deactivationDuration
+		);
+	};
+
+	/**
+	 * Send Event through to GA4
+	 *
+	 * @param {string} action
+	 * @param {string} key
+	 * @param {string} value
+	 * @return {Promise} fetch Promise to data event endpoint
+	 */
+	const sendEvent = async ( action, key, value ) => {
+		// set up event data
 		const eventData = {
-			label_key: surveyInput ? 'survey_input' : 'deactivation_duration',
-			category: 'user_action',
 			brand: runtimeData.brand,
 			page: window.location.href,
-			...surveyInput && { survey_input: surveyInput },
-			...deactivationDuration && { deactivation_duration: deactivationDuration },
+			category: 'user_action',
+			label_key: key,
+			[ key ]: value,
 		};
 
 		// Attach abTestPluginHome flag value if exists
 		if ( typeof getABTestPluginHome() === 'boolean' ) {
 			eventData.abTestPluginHome = getABTestPluginHome();
 		}
-		const actionName = surveyInput ? 'deactivation_survey_freeform' : 'deactivation_duration';
-		await fetch( runtimeData.eventsEndpoint, {
+
+		return await fetch( runtimeData.eventsEndpoint, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'X-WP-Nonce': runtimeData.restApiNonce,
 			},
 			body: JSON.stringify( {
-				action: actionName,
+				action,
 				data: eventData,
 			} ),
 		} );
-		return true;
 	};
 
 	const getABTestPluginHome = () => {
 		const { NewfoldRuntime } = window;
-
 		return NewfoldRuntime?.capabilities?.abTestPluginHome;
 	};
 
