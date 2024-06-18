@@ -285,6 +285,12 @@
     }
 }
 
+@media screen and (max-width: 600px) {
+    .nfd-deactivation-survey__container {
+      overflow: scroll;
+    }
+  }
+
 /* animations */
 @keyframes nfd-submitting {
     0% {
