@@ -104,7 +104,7 @@ describe( 'Plugin Deactivation Survey', () => {
 		cy.wait( '@surveyEvent' )
 			// .its('request.body.action').should('eq', 'deactivation_survey_freeform')
 			.its( 'request.body.data.survey_input' )
-			.should( 'eq', 'No input' );
+			.should( 'eq', '(Skipped)' );
 		// verify modal closed
 		cy.get( '.nfd-deactivation-survey__container' ).should( 'not.exist' );
 		// verify plugin is deactivated
