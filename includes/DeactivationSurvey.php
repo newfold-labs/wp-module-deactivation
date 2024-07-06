@@ -79,12 +79,6 @@ class DeactivationSurvey {
 				__( 'Need Help? Check the <a href="%s">help center</a> for support.', 'wp-module-deactivation' ),
 				'/wp-admin/admin.php?page=' . container()->plugin()->id . '#/help'
 			),
-			'durationOption1'              => __( '1 Hour','wp-module-deactivation' ),
-			'durationOption1Value'         => __( '1_hour','wp-module-deactivation' ),
-			'durationOption2'              => __( '24 Hours','wp-module-deactivation' ),
-			'durationOption2Value'         => __( '24_hours','wp-module-deactivation' ),
-			'durationOption3'              => __( 'Until I turn it back on','wp-module-deactivation' ),
-			'durationOption3Value'         => __( 'until_manual','wp-module-deactivation' ),
 		);
 
 		// Merge defaults with container values from plugin
