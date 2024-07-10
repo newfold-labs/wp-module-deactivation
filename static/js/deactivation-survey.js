@@ -194,9 +194,6 @@
 		// Send event
 		return await sendSurveyEvent( skipped )
 			.then( () => {
-				sendDurationEvent();
-			} )
-			.then( () => {
 				deactivatePlugin();
 			} );
 	};
@@ -221,23 +218,6 @@
 			'deactivation_survey_freeform',
 			'survey_input',
 			surveyInput
-		);
-	};
-
-	/**
-	 * Helper to send duration event data
-	 *
-	 * @return {Promise} via SendEvent
-	 */
-	const sendDurationEvent = async () => {
-		const deactivationDuration = document.getElementById(
-			'deactivation-duration'
-		).value;
-
-		return sendEvent(
-			'deactivation_duration_select',
-			'deactivation_duration',
-			deactivationDuration
 		);
 	};
 
