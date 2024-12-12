@@ -53,7 +53,7 @@
         "lint": [
             "vendor/bin/phpcs --standard=phpcs.xml -s ."
         ],
-        "i18n-pot": "vendor/bin/wp i18n make-pot . ./languages/wp-module-deactivation.pot",
+        "i18n-pot": "vendor/bin/wp i18n make-pot . ./languages/wp-module-deactivation.pot --headers='{\"Report-Msgid-Bugs-To\":\"https://github.com/newfold-labs/wp-module-deactivation/issues\",\"POT-Creation-Date\":\"2024-12-12T07:59:34+00:00\"}' --exclude=tests",
         "i18n-po": "vendor/bin/wp i18n update-po ./languages/wp-module-deactivation.pot ./languages",
         "i18n-mo": "vendor/bin/wp i18n make-mo ./languages",
         "i18n-json": "rm -f languages/*.json && vendor/bin/wp i18n make-json ./languages --no-purge --pretty-print",
