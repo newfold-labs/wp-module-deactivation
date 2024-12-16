@@ -43,6 +43,7 @@ class DeactivationSurvey {
 			'continue'          => __( 'Continue', 'wp-module-deactivation' ),
 			'continueAriaLabel' => __( 'Continue Deactivation', 'wp-module-deactivation' ),
 			'sureTitle'         => __( 'Are you sure you want to deactivate?', 'wp-module-deactivation' ),
+			'deactivating'      => __( 'Deactivating', 'wp-module-deactivation' ),
 			'sureDesc'          => sprintf( 
 				__( 'If the %s plugin is deactivated, these features will no longer work:', 'wp-module-deactivation' ),
 				ucwords( container()->plugin()->id )
