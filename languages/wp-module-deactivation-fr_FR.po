@@ -121,5 +121,5 @@ msgstr "Des dizaines de beaux modèles de blocs"
 
 #: includes/DeactivationSurvey.php:80
 msgid "Need Help? Check the <a href=\"%s\">help center</a> for support."
-msgstr ""
+msgstr "Besoin d'aide ? Consultez le <a href=\"%s\">centre d'aide</a> pour obtenir de l'assistance."
 

@@ -121,5 +121,5 @@ msgstr "Decenas de hermosas plantillas y patrones de bloques"
 
 #: includes/DeactivationSurvey.php:80
 msgid "Need Help? Check the <a href=\"%s\">help center</a> for support."
-msgstr ""
+msgstr "¿Necesitas ayuda? Consulta el <a href=\"%s\">centro de ayuda</a> para obtener soporte."
 
