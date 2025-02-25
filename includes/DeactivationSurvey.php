@@ -77,8 +77,9 @@ class DeactivationSurvey {
 				),
 			),
 			'sureHelp'     => sprintf( 
-				__( 'Need Help? Check the <a href="%s">help center</a> for support.', 'wp-module-deactivation' ),
-				'/wp-admin/admin.php?page=' . container()->plugin()->id . '#/help'
+				__( 'Need Help? Check the %1$shelp center%2$s for support.', 'wp-module-deactivation' ),
+				'<a href="/wp-admin/admin.php?page=' . container()->plugin()->id . '#/help">',
+				'</a>'
 			),
 		);
 

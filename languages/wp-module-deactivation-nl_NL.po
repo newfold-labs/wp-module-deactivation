@@ -9,6 +9,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2024-12-12T19:31:01+00:00\n"
 "PO-Revision-Date: 2025-02-19 16:54\n"
+"Language: nl_NL\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-module-deactivation\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -17,7 +18,6 @@ msgstr ""
 "X-Crowdin-Language: nl\n"
 "X-Crowdin-File: wp-module-deactivation.pot\n"
 "X-Crowdin-File-ID: 52\n"
-"Language: nl_NL\n"
 
 #: includes/DeactivationSurvey.php:28
 msgid "Plugin Deactivation Survey"
@@ -120,6 +120,5 @@ msgid "Dozens of beautiful block templates and patterns"
 msgstr "Tientallen prachtige bloksjablonen en -patronen"
 
 #: includes/DeactivationSurvey.php:80
-msgid "Need Help? Check the <a href=\"%s\">help center</a> for support."
-msgstr "Hulp nodig? Kijk dan op <a href=\"%s\">help center</a> voor ondersteuning."
-
+msgid "Need Help? Check the %1$shelp center%2$s for support."
+msgstr "Hulp nodig? Kijk dan op %1$shelp center%2$s voor ondersteuning."
