@@ -37,9 +37,12 @@ class Deactivation {
 
 		// Plugin deactivation survey.
 		\add_action( 'init', array( __CLASS__, 'load_text_domain' ), 100 );
-		add_action( 'admin_head-plugins.php', function () {
-			new DeactivationSurvey();
-		} );
+		add_action(
+			'admin_head-plugins.php',
+			function () {
+				new DeactivationSurvey();
+			}
+		);
 	}
 
 	/**
@@ -76,5 +79,4 @@ class Deactivation {
 			NFD_DEACTIVATION_DIR . '/languages'
 		);
 	}
-
 }
