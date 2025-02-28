@@ -36,9 +36,13 @@ class Deactivation {
 		);
 
 		// Plugin deactivation survey.
-		add_action( 'admin_head-plugins.php', function () {
-			new DeactivationSurvey();
-		} );
+		\add_action( 'init', array( __CLASS__, 'load_text_domain' ), 100 );
+		add_action(
+			'admin_head-plugins.php',
+			function () {
+				new DeactivationSurvey();
+			}
+		);
 	}
 
 	/**
@@ -60,5 +64,19 @@ class Deactivation {
 		if ( $coming_soon_service && $coming_soon_service->is_enabled() ) {
 			$coming_soon_service->disable();
 		}
+	}
+
+	/**
+	 * Load text domain for Module
+	 *
+	 * @return void
+	 */
+	public static function load_text_domain() {
+
+		\load_plugin_textdomain(
+			'wp-module-deactivation',
+			false,
+			NFD_DEACTIVATION_DIR . '/languages'
+		);
 	}
 }
