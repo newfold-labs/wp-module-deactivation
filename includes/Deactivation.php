@@ -30,9 +30,10 @@ class Deactivation {
 	public function __construct( Container $container ) {
 		$this->container = $container;
 
+		// deactivation hook
 		register_deactivation_hook(
 			$container->plugin()->file,
-			array( $this, 'handle' )
+			array( $this, 'on_deactivate' )
 		);
 
 		// Plugin deactivation survey.
@@ -50,8 +51,17 @@ class Deactivation {
 	 *
 	 * @return void
 	 */
-	public function handle() {
+	public function on_deactivate() {
+		// disable coming soon mode
 		$this->disable_coming_soon();
+
+		// clear relevant transients
+		\delete_transient( 'newfold_marketplace' );
+		\delete_transient( 'newfold_notifications' );
+		\delete_transient( 'newfold_solutions' );
+
+		// flush rewrite rules
+		\flush_rewrite_rules();
 	}
 
 	/**
