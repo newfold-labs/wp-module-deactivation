@@ -34,7 +34,7 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 		} );
 
 		Cypress.Commands.add( 'activatePlugin', () => {
-			cy.log( 'Clicking Activeate Link to Activate Plugin' );
+			cy.log( 'Clicking Activate Link to Activate Plugin' );
 			cy.get( 'body' ).then( ( $body ) => {
 				// check if activate link is present
 				if (
