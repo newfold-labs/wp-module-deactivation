@@ -7,12 +7,14 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 	before( () => {
 		// define commands for repetitive commands
 		Cypress.Commands.add( 'triggerDeactivationModal', () => {
+			cy.log( 'Clicking Deactivate link to Open Deactivation Modal' );
 			cy.get(
 				'.deactivate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
 			).click();
 		} );
 
 		Cypress.Commands.add( 'verifyModalClosed', () => {
+			cy.log( 'Verifying Deactivation Modal is Closed' );
 			cy.get( '.nfd-deactivation-survey__container' ).should(
 				'not.exist'
 			);
@@ -20,6 +22,9 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 		} );
 
 		Cypress.Commands.add( 'verifyPluginDeactivated', () => {
+			cy.log( 'Verifying Plugin is Not Active' );
+			cy.visit( '/wp-admin/plugins.php' );
+			cy.reload( true );
 			cy.get(
 				'.deactivate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
 			).should( 'not.exist' );
@@ -29,21 +34,29 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 		} );
 
 		Cypress.Commands.add( 'activatePlugin', () => {
-			cy.get('body')
-			.then(($body) => {
+			cy.log( 'Clicking Activeate Link to Activate Plugin' );
+			cy.get( 'body' ).then( ( $body ) => {
 				// check if activate link is present
-				if ( $body.find('.activate a[id*="' + Cypress.env( 'pluginId' ) + '"]').length ) {
+				if (
+					$body.find(
+						'.activate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
+					).length
+				) {
 					cy.get(
 						'.activate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
-					).click();		
+					).click();
 				}
 				// else assume it was textarea
 				return false;
-			})
+			} );
 			cy.wait( 500 );
+			// reload the page to make sure the plugin is activated
+			cy.visit( '/wp-admin/plugins.php' );
+			cy.reload( true );
 		} );
 
 		Cypress.Commands.add( 'verifyPluginActive', () => {
+			cy.log( 'Verifying Plugin is Active' );
 			cy.get(
 				'.deactivate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
 			).should( 'exist' );
@@ -51,8 +64,7 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 				'.activate a[id*="' + Cypress.env( 'pluginId' ) + '"]'
 			).should( 'not.exist' );
 		} );
-
-	});
+	} );
 
 	beforeEach( () => {
 		wpLogin();
@@ -78,7 +90,6 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 			method: 'POST',
 			url: /newfold-data(\/|%2F)v1(\/|%2F)events/,
 		} ).as( 'surveyEvent' );
-
 	} );
 
 	it( 'Modal opens and closes properly and Skip action works', () => {
@@ -130,7 +141,7 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 		cy.verifyModalClosed();
 
 		// Step 1 content renders correctly
-	 	// click "Deactivate" link from plugins list
+		// click "Deactivate" link from plugins list
 		cy.triggerDeactivationModal();
 
 		cy.get(
@@ -139,8 +150,12 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 		cy.get(
 			'.nfd-deactivation-sure .nfd-deactivation__header-subtitle'
 		).should( 'be.visible' );
-		cy.get( '.nfd-deactivation-sure .nfd-deactivation__cards' ).should( 'be.visible' );
-		cy.get( '.nfd-deactivation-sure .nfd-deactivation__helptext' ).should( 'be.visible' );
+		cy.get( '.nfd-deactivation-sure .nfd-deactivation__cards' ).should(
+			'be.visible'
+		);
+		cy.get( '.nfd-deactivation-sure .nfd-deactivation__helptext' ).should(
+			'be.visible'
+		);
 
 		// Check content matches deactivation runtime data
 		cy.get(
@@ -158,9 +173,9 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 		).should( 'be.visible' );
 
 		// Step 2 content renders correctly
-	 	// Go to next step
+		// Go to next step
 		cy.get( 'button[nfd-deactivation-survey-next]' ).click();
-		
+
 		cy.get(
 			'.nfd-deactivation-survey .nfd-deactivation__header-title'
 		).should( 'be.visible' );
@@ -193,7 +208,7 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 		cy.get(
 			'.nfd-deactivation-survey button[nfd-deactivation-survey-skip]'
 		).should( 'be.visible' );
-		
+
 		// Skip action works
 		// skip & deactivate functions
 		cy.get( 'button[nfd-deactivation-survey-skip]' ).should( 'be.visible' );
@@ -237,5 +252,4 @@ describe( 'Plugin Deactivation Survey', { testIsolation: true }, () => {
 		// verify plugin is activated
 		cy.verifyPluginActive();
 	} );
-
 } );
