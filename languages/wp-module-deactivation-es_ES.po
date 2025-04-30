@@ -37,7 +37,7 @@ msgstr "Formulario de desactivación del plugin"
 
 #: includes/DeactivationSurvey.php:35
 msgid "Why are you deactivating this plugin?"
-msgstr "¿Por qué está desactivando este plugin?"
+msgstr "¿Por qué estás desactivando este plugin?"
 
 #: includes/DeactivationSurvey.php:36
 msgid "Please share the reason here..."
@@ -77,7 +77,7 @@ msgstr "Continuar desactivación"
 
 #: includes/DeactivationSurvey.php:45
 msgid "Are you sure you want to deactivate?"
-msgstr "¿Está seguro de que desea desactivar?"
+msgstr "¿Está seguro de que deseas desactivar?"
 
 #: includes/DeactivationSurvey.php:46
 msgid "Deactivating"
@@ -85,7 +85,7 @@ msgstr "Desactivando"
 
 #: includes/DeactivationSurvey.php:48
 msgid "If the %s plugin is deactivated, these features will no longer work:"
-msgstr "Si el complemento %s está desactivado, estas características ya no funcionarán:"
+msgstr "Si el plugin %s está desactivado, estas características ya no funcionarán:"
 
 #: includes/DeactivationSurvey.php:54
 msgid "%s Caching"
@@ -93,7 +93,7 @@ msgstr "Caché %s"
 
 #: includes/DeactivationSurvey.php:57
 msgid "Automatically clears the server page cache when your site updates"
-msgstr "Borrar automáticamente la caché de la página del servidor cuando su sitio se actualiza"
+msgstr "Borrar automáticamente la caché de la página del servidor cuando tu sitio se actualiza"
 
 #: includes/DeactivationSurvey.php:62
 msgid "%s Staging"
@@ -101,19 +101,19 @@ msgstr "%s Staging"
 
 #: includes/DeactivationSurvey.php:65
 msgid "Create a staging copy of your site to safely test changes"
-msgstr "Crear una copia provisional de su sitio para probar los cambios con seguridad"
+msgstr "Crear una copia provisional de tu sitio para probar los cambios con seguridad"
 
 #: includes/DeactivationSurvey.php:69
 msgid "WooCommerce Tools"
-msgstr "Herramientas WooCommerce"
+msgstr "Herramientas de WooCommerce"
 
 #: includes/DeactivationSurvey.php:70
 msgid "Run campaigns and promotions on your store"
-msgstr "Ejecutar campañas y promociones en su tienda"
+msgstr "Ejecutar campañas y promociones en tu tienda"
 
 #: includes/DeactivationSurvey.php:74
 msgid "Wonder Blocks & Patterns Library"
-msgstr "Biblioteca de bloques y patrones de maravilla"
+msgstr "Biblioteca de Patrones y Wonder Blocks"
 
 #: includes/DeactivationSurvey.php:75
 msgid "Dozens of beautiful block templates and patterns"
