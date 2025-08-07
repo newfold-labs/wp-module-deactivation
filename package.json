@@ -1,5 +1,9 @@
 {
   "name": "wp-module-deactivation",
+  "engines": {
+    "node": ">=22.11.0",
+    "npm": ">=10.9.0"
+  },
   "devDependencies": {
     "@wordpress/env": "^10.26.0"
   }
