@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1756837915">
-  <project timestamp="1756837915">
+<coverage generated="1756837949">
+  <project timestamp="1756837949">
     <file name="/home/runner/work/wp-module-deactivation/wp-module-deactivation/includes/Deactivation.php">
       <class name="NewfoldLabs\WP\Module\Deactivation\Deactivation" namespace="global">
         <metrics complexity="7" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="0" elements="29" coveredelements="0"/>
