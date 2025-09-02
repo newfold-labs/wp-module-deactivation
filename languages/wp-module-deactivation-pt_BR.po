@@ -1,18 +1,19 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/newfold-labs/wp-module-deactivation/issues\n"
+"POT-Creation-Date: 2024-12-12T07:59:34+00:00\n"
+"PO-Revision-Date: 2025-05-07 13:00+0100\n"
 "Last-Translator: Carlos Rodriguez <carlos.rodriguez@newfold.com>\n"
 "Language-Team: Brazilian Portuguese <ldpbr-translation@lists.sourceforge.net>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-12-12T07:59:34+00:00\n"
-"PO-Revision-Date: 2025-05-07 13:00+0100\n"
-"Language: pt_BR\n"
-"X-Generator: WP-CLI 2.11.0\n"
-"X-Domain: wp-module-deactivation\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Domain: wp-module-deactivation\n"
+"X-Generator: WP-CLI 2.11.0\n"
 
 #: includes/DeactivationSurvey.php:28
 msgid "Plugin Deactivation Survey"
@@ -24,8 +25,11 @@ msgid "Thank you for using the %s plugin!"
 msgstr "Obrigado por usar o plugin %s!"
 
 #: includes/DeactivationSurvey.php:33
-msgid "Please take a moment to let us know why you're deactivating this plugin."
-msgstr "Por favor, reserve um momento para nos dizer por que você está desativando este plugin."
+msgid ""
+"Please take a moment to let us know why you're deactivating this plugin."
+msgstr ""
+"Por favor, reserve um momento para nos dizer por que você está desativando "
+"este plugin."
 
 #: includes/DeactivationSurvey.php:34
 msgid "Plugin Deactivation Form"
@@ -91,7 +95,9 @@ msgstr "Cache %s"
 
 #: includes/DeactivationSurvey.php:57
 msgid "Automatically clears the server page cache when your site updates"
-msgstr "Limpa automaticamente o cache de páginas do servidor quando seu site é atualizado"
+msgstr ""
+"Limpa automaticamente o cache de páginas do servidor quando seu site é "
+"atualizado"
 
 #: includes/DeactivationSurvey.php:62
 #, php-format
@@ -100,7 +106,9 @@ msgstr "Ambiente de Testes %s"
 
 #: includes/DeactivationSurvey.php:65
 msgid "Create a staging copy of your site to safely test changes"
-msgstr "Crie uma cópia de testes do seu site para experimentar alterações com segurança"
+msgstr ""
+"Crie uma cópia de testes do seu site para experimentar alterações com "
+"segurança"
 
 #: includes/DeactivationSurvey.php:69
 msgid "WooCommerce Tools"
@@ -121,4 +129,5 @@ msgstr "Dezenas de lindos modelos de blocos e padrões"
 #: includes/DeactivationSurvey.php:80
 #, php-format
 msgid "Need Help? Check the %1$shelp center%2$s for support."
-msgstr "Precisa de ajuda? Consulte o %1$scentral de ajuda%2$s para obter suporte."
+msgstr ""
+"Precisa de ajuda? Consulte o %1$scentral de ajuda%2$s para obter suporte."
