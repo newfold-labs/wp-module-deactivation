@@ -49,7 +49,7 @@
         }
     },
     "require": {
-        "newfold-labs/wp-module-data": "^2.8.8"
+        "newfold-labs/wp-module-data": "^2.9.1"
     },
     "require-dev": {
         "newfold-labs/wp-php-standards": "^1.2",
