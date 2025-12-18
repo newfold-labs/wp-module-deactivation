@@ -24,6 +24,7 @@ const pluginHelpers = await import(helpersUrl);
 let { auth, wordpress, newfold, a11y, utils } = pluginHelpers;
 // destructure wpCli from wordpress
 const { wpCli } = wordpress;
+const { fancyLog } = utils;
 
 /**
  * Get deactivation link for plugin
@@ -54,7 +55,7 @@ const getDeactivationLink = (page, pluginId) => {
    * @param {string} pluginId - Plugin ID
    */
   const triggerDeactivationModal = async (page, pluginId) => {
-    console.log('Clicking Deactivate link to Open Deactivation Modal');
+    fancyLog('Clicking Deactivate link to Open Deactivation Modal');
     const deactivateLink = getDeactivationLink(page, pluginId);
     await deactivateLink.click();
   }
@@ -66,7 +67,7 @@ const getDeactivationLink = (page, pluginId) => {
    * @param {string} pluginId - Plugin ID
    */
   const verifyPluginDeactivated = async (page, pluginId) => {
-    console.log('Verifying Plugin is Not Active');
+    fancyLog('Verifying Plugin is Not Active');
     const deactivateLink = getDeactivationLink(page, pluginId);
     await expect(deactivateLink).not.toBeVisible(); // Should not be visible if deactivated
     
@@ -81,7 +82,7 @@ const getDeactivationLink = (page, pluginId) => {
    * @param {string} pluginId - Plugin ID
    */
   const verifyPluginActive = async (page, pluginId) => {
-    console.log('Verifying Plugin is Active');
+    fancyLog('Verifying Plugin is Active');
     const activateLink = getActivationLink(page, pluginId);
     await expect(activateLink).not.toBeVisible();
     
@@ -96,7 +97,7 @@ const getDeactivationLink = (page, pluginId) => {
    * @param {string} pluginId - Plugin ID
    */
   const activatePlugin = async (page, pluginId) => {
-    console.log('Clicking Activate Link to Activate Plugin');
+    fancyLog('Clicking Activate Link to Activate Plugin');
     const activateLink = getActivationLink(page, pluginId);
     await activateLink.click();
     
@@ -111,6 +112,7 @@ const getDeactivationLink = (page, pluginId) => {
    * @param {string} pluginId - Plugin ID
    */
   const activatePluginViaCLI = async (page, pluginId) => {
+    fancyLog('Activating Plugin via CLI');
     const pluginSlug = getPluginSlug(pluginId);
     await wpCli(`plugin activate ${pluginSlug}`);
   }
