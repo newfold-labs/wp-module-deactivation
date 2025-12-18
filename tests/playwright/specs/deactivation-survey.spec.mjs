@@ -166,21 +166,19 @@ test.describe('Plugin Deactivation Survey', () => {
     // Skip action works
     await triggerDeactivationModal(page, pluginId);
     await page.locator(step1ContinueButton).click();
+    
+    // Set up request interception BEFORE triggering the action
+    const requestPromise = page.waitForRequest(request =>
+      request.url().includes('/newfold-data/v1/events') && request.method() === 'POST'
+    );
+    
+    // Now click the skip button
     await page.locator(step2SkipButton).click();
     
-    // Wait for survey event and verify payload
-    // const responsePromise = page.waitForResponse('**/newfold-data/v1/events**');
-    // const response = await responsePromise;
-    
-    // // Check if response body is available
-    // if (response.status() === 200) {
-    //   try {
-    //     const responseBody = await response.json();
-    //     expect(responseBody.data.survey_input).toBe('(Skipped)');
-    //   } catch (error) {
-    //     console.log('Response body not available, but request was made');
-    //   }
-    // }
+    // Wait for and validate the request payload
+    const request = await requestPromise;
+    const requestBody = request.postDataJSON();
+    expect(requestBody.data.survey_input).toBe('(Skipped)');
     
     // Verify modal closed and plugin deactivated
     await expect(page.locator(modalContainer)).not.toBeVisible();
@@ -206,21 +204,19 @@ test.describe('Plugin Deactivation Survey', () => {
     // Enter reason and submit
     const ugcReason = 'automated testing';
     await page.locator(surveyTextarea).fill(ugcReason);
+    
+    // Set up request interception BEFORE triggering the action
+    const requestPromise = page.waitForRequest(request =>
+      request.url().includes('/newfold-data/v1/events') && request.method() === 'POST'
+    );
+    
+    // Now click the submit button
     await page.locator(submitButton).click();
     
-    // Wait for survey event and verify payload
-    const responsePromise = page.waitForResponse('**/newfold-data/v1/events**');
-    const response = await responsePromise;
-    
-    // Check if response body is available
-    if (response.status() === 200) {
-      try {
-        const responseBody = await response.json();
-        expect(responseBody.data.survey_input).toBe(ugcReason);
-      } catch (error) {
-        console.log('Response body not available, but request was made');
-      }
-    }
+    // Wait for and validate the request payload
+    const request = await requestPromise;
+    const requestBody = request.postDataJSON();
+    expect(requestBody.data.survey_input).toBe(ugcReason);
     
     // Verify modal closed and plugin deactivated
     await expect(page.locator(modalContainer)).not.toBeVisible();
