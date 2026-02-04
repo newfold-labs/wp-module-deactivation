@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1769550378">
-  <project timestamp="1769550378">
+<coverage generated="1770228209">
+  <project timestamp="1770228209">
     <file name="/home/runner/work/wp-module-deactivation/wp-module-deactivation/includes/Deactivation.php">
       <class name="NewfoldLabs\WP\Module\Deactivation\Deactivation" namespace="global">
         <metrics complexity="7" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="0" elements="29" coveredelements="0"/>
@@ -140,12 +140,12 @@
     </file>
     <file name="/home/runner/work/wp-module-deactivation/wp-module-deactivation/includes/Events/Event.php">
       <class name="NewfoldLabs\WP\Module\Deactivation\Events\Event" namespace="global">
-        <metrics complexity="2" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="0" elements="14" coveredelements="0"/>
+        <metrics complexity="2" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="3" elements="13" coveredelements="4"/>
       </class>
-      <line num="58" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="59" type="stmt" count="0"/>
-      <line num="60" type="stmt" count="0"/>
-      <line num="61" type="stmt" count="0"/>
+      <line num="58" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="3"/>
+      <line num="59" type="stmt" count="3"/>
+      <line num="60" type="stmt" count="3"/>
+      <line num="61" type="stmt" count="3"/>
       <line num="69" type="method" name="sendEvent" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="70" type="stmt" count="0"/>
       <line num="71" type="stmt" count="0"/>
@@ -155,23 +155,23 @@
       <line num="75" type="stmt" count="0"/>
       <line num="77" type="stmt" count="0"/>
       <line num="78" type="stmt" count="0"/>
-      <metrics loc="81" ncloc="36" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="0" elements="14" coveredelements="0"/>
+      <metrics loc="81" ncloc="36" classes="1" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="3" elements="13" coveredelements="4"/>
     </file>
     <file name="/home/runner/work/wp-module-deactivation/wp-module-deactivation/includes/Events/SiteLaunched.php">
       <class name="NewfoldLabs\WP\Module\Deactivation\Events\SiteLaunched" namespace="global">
-        <metrics complexity="2" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="9" coveredelements="0"/>
+        <metrics complexity="2" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="5" elements="9" coveredelements="6"/>
       </class>
-      <line num="19" type="method" name="send" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="20" type="stmt" count="0"/>
-      <line num="21" type="stmt" count="0"/>
-      <line num="22" type="stmt" count="0"/>
-      <line num="23" type="stmt" count="0"/>
-      <line num="25" type="stmt" count="0"/>
+      <line num="19" type="method" name="send" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="20" type="stmt" count="1"/>
+      <line num="21" type="stmt" count="1"/>
+      <line num="22" type="stmt" count="1"/>
+      <line num="23" type="stmt" count="1"/>
+      <line num="25" type="stmt" count="1"/>
       <line num="33" type="method" name="getInstallTime" visibility="private" complexity="1" crap="2" count="0"/>
       <line num="34" type="stmt" count="0"/>
       <line num="36" type="stmt" count="0"/>
-      <metrics loc="39" ncloc="21" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="9" coveredelements="0"/>
+      <metrics loc="39" ncloc="21" classes="1" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="5" elements="9" coveredelements="6"/>
     </file>
-    <metrics files="4" loc="365" ncloc="234" classes="4" methods="11" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="137" coveredstatements="0" elements="148" coveredelements="0"/>
+    <metrics files="4" loc="365" ncloc="234" classes="4" methods="11" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="136" coveredstatements="8" elements="147" coveredelements="10"/>
   </project>
 </coverage>
