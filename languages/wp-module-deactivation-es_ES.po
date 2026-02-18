@@ -1,16 +1,15 @@
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: newfold-labswp-module-staging\n"
 "Report-Msgid-Bugs-To: https://github.com/newfold-labs/wp-module-deactivation/issues\n"
-"POT-Creation-Date: 2024-12-12T19:31:01+00:00\n"
-"PO-Revision-Date: 2025-02-19 16:54\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
-"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-12-12T19:31:01+00:00\n"
+"PO-Revision-Date: 2025-02-19 16:54\n"
+"Language: es_ES\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-File: wp-module-deactivation.pot\n"
 "X-Crowdin-File-ID: 52\n"
@@ -30,11 +29,8 @@ msgid "Thank you for using the %s plugin!"
 msgstr "¡Gracias por usar el plugin %s!"
 
 #: includes/DeactivationSurvey.php:33
-msgid ""
-"Please take a moment to let us know why you're deactivating this plugin."
-msgstr ""
-"Por favor, tómese un momento para decirnos por qué está desactivando este "
-"plugin."
+msgid "Please take a moment to let us know why you're deactivating this plugin."
+msgstr "Por favor, tómese un momento para decirnos por qué está desactivando este plugin."
 
 #: includes/DeactivationSurvey.php:34
 msgid "Plugin Deactivation Form"
@@ -91,8 +87,7 @@ msgstr "Desactivando"
 #: includes/DeactivationSurvey.php:48
 #, php-format
 msgid "If the %s plugin is deactivated, these features will no longer work:"
-msgstr ""
-"Si el plugin %s está desactivado, estas características ya no funcionarán:"
+msgstr "Si el plugin %s está desactivado, estas características ya no funcionarán:"
 
 #: includes/DeactivationSurvey.php:54
 #, php-format
@@ -101,9 +96,7 @@ msgstr "Caché %s"
 
 #: includes/DeactivationSurvey.php:57
 msgid "Automatically clears the server page cache when your site updates"
-msgstr ""
-"Borrar automáticamente la caché de la página del servidor cuando tu sitio se"
-" actualiza"
+msgstr "Borrar automáticamente la caché de la página del servidor cuando tu sitio se actualiza"
 
 #: includes/DeactivationSurvey.php:62
 #, php-format
@@ -112,9 +105,7 @@ msgstr "%s Staging"
 
 #: includes/DeactivationSurvey.php:65
 msgid "Create a staging copy of your site to safely test changes"
-msgstr ""
-"Crear una copia provisional de tu sitio para probar los cambios con "
-"seguridad"
+msgstr "Crear una copia provisional de tu sitio para probar los cambios con seguridad"
 
 #: includes/DeactivationSurvey.php:69
 msgid "WooCommerce Tools"
@@ -135,5 +126,4 @@ msgstr "Decenas de hermosas plantillas y patrones de bloques"
 #: includes/DeactivationSurvey.php:80
 #, php-format
 msgid "Need Help? Check the %1$shelp center%2$s for support."
-msgstr ""
-"¿Necesitas ayuda? Consulta el %1$scentro de ayuda%2$s para obtener soporte."
+msgstr "¿Necesitas ayuda? Consulta el %1$scentro de ayuda%2$s para obtener soporte."
