@@ -1,3 +1,10 @@
+---
+name: wp-module-deactivation
+title: Documentation index
+description: Table of contents and quick links.
+updated: 2025-03-18
+---
+
 # wp-module-deactivation – Documentation index
 
 Documentation for wp-module-deactivation, for **humans** and **AI agents**. Start here.

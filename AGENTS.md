@@ -38,4 +38,4 @@ composer run i18n
 
 ## Keeping documentation current
 
-When you change code, features, or workflows, update the docs. When cutting a release, update **docs/changelog.md**.
+When you change code, features, or workflows, update the docs. Keep **docs/index.md** current: when you add, remove, or rename doc files, update the table of contents (and quick links if present). When cutting a release, update **docs/changelog.md**.
