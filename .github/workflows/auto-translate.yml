@@ -23,6 +23,7 @@ jobs:
     permissions:
       contents: write      # Required by reusable-translations jobs that persist credentials and push the auto-translate branch.
       pull-requests: write # Required by reusable-translations for gh PR operations (list/update/create) throughout the callee workflow.
+    timeout-minutes: 45
     with:
       text_domain: 'wp-module-deactivation'
     secrets:

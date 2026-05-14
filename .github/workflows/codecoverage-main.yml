@@ -20,6 +20,7 @@ permissions: {}
 jobs:
   get-repo-name:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions: {}
     outputs:
       repository-name: ${{ steps.repo-name.outputs.name }}
@@ -36,6 +37,7 @@ jobs:
     permissions:
       contents: write      # Matches reusable-codecoverage pushes to gh-pages and checkouts needing write-capable Git auth.
       pull-requests: write # Matches reusable-codecoverage posting PR coverage comments via add-pr-comment.
+    timeout-minutes: 120
     with:
       php-versions: '["7.4", "8.0", "8.1", "8.2", "8.3", "8.4"]'
       coverage-php-version: '7.4'
