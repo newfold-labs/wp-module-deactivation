@@ -227,19 +227,17 @@
 		} );
 	};
 
-	const submitSurvey = async ( skipped = false ) => {
+	const submitSurvey = ( skipped = false ) => {
 		isSubmitting();
 
-		// Send event. Best-effort: the analytics event must never block the
-		// actual deactivation redirect, so deactivatePlugin() runs whether or
-		// not the request succeeds.
-		return await sendSurveyEvent( skipped )
-			.catch( ( error ) => {
-				console.error( 'Error: Failed to send deactivation survey event.', error );
-			} )
-			.then( () => {
-				deactivatePlugin();
-			} );
+		// Fire-and-forget: the analytics event is best-effort and must never
+		// delay or block the actual deactivation redirect, whether it
+		// succeeds, fails, or is still in flight.
+		sendSurveyEvent( skipped ).catch( ( error ) => {
+			console.error( 'Error: Failed to send deactivation survey event.', error );
+		} );
+
+		deactivatePlugin();
 	};
 
 	/**
