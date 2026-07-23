@@ -227,13 +227,29 @@
 		} );
 	};
 
+	/**
+	 * Skip or submit the survey and deactivate the plugin.
+	 *
+	 * The returned promise resolves immediately once deactivation is triggered — it does
+	 * not wait for the analytics event to complete, so it cannot be used to detect whether
+	 * that event succeeded.
+	 *
+	 * @param {boolean} skipped
+	 * @return {Promise<void>}
+	 */
 	const submitSurvey = async ( skipped = false ) => {
 		isSubmitting();
 
-		// Send event
-		return await sendSurveyEvent( skipped ).then( () => {
-			deactivatePlugin();
+		// Fire-and-forget: the analytics event is best-effort and must never
+		// delay or block the actual deactivation redirect, whether it
+		// succeeds, fails, or is still in flight. `submitSurvey` stays async
+		// (resolving immediately) to preserve its existing Promise-returning
+		// signature for any caller relying on it.
+		void sendSurveyEvent( skipped ).catch( ( error ) => {
+			console.error( 'Error: Failed to send deactivation survey event.', error );
 		} );
+
+		deactivatePlugin();
 	};
 
 	/**
@@ -292,6 +308,8 @@
 				action,
 				data: eventData,
 			} ),
+			// Let the request outlive the page navigation triggered by deactivatePlugin().
+			keepalive: true,
 		} );
 	};
 
