@@ -227,6 +227,16 @@
 		} );
 	};
 
+	/**
+	 * Skip or submit the survey and deactivate the plugin.
+	 *
+	 * The returned promise resolves immediately once deactivation is triggered — it does
+	 * not wait for the analytics event to complete, so it cannot be used to detect whether
+	 * that event succeeded.
+	 *
+	 * @param {boolean} skipped
+	 * @return {Promise<void>}
+	 */
 	const submitSurvey = async ( skipped = false ) => {
 		isSubmitting();
 
