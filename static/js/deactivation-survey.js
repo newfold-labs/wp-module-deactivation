@@ -227,13 +227,15 @@
 		} );
 	};
 
-	const submitSurvey = ( skipped = false ) => {
+	const submitSurvey = async ( skipped = false ) => {
 		isSubmitting();
 
 		// Fire-and-forget: the analytics event is best-effort and must never
 		// delay or block the actual deactivation redirect, whether it
-		// succeeds, fails, or is still in flight.
-		sendSurveyEvent( skipped ).catch( ( error ) => {
+		// succeeds, fails, or is still in flight. `submitSurvey` stays async
+		// (resolving immediately) to preserve its existing Promise-returning
+		// signature for any caller relying on it.
+		void sendSurveyEvent( skipped ).catch( ( error ) => {
 			console.error( 'Error: Failed to send deactivation survey event.', error );
 		} );
 
@@ -296,6 +298,8 @@
 				action,
 				data: eventData,
 			} ),
+			// Let the request outlive the page navigation triggered by deactivatePlugin().
+			keepalive: true,
 		} );
 	};
 
