@@ -2,10 +2,10 @@ import { test, expect } from '@playwright/test';
 import {
   auth,
   triggerDeactivationModal,
-  verifyPluginDeactivated,
   verifyPluginActive,
-  activatePlugin,
-  activatePluginViaCLI
+  activatePluginViaCLI,
+  waitForDeactivationNavigation,
+  clearInstallerQueues,
 } from '../helpers';
 
 // Use environment variable to resolve plugin helpers
@@ -15,19 +15,30 @@ test.describe('Plugin Deactivation Survey', () => {
   let surveyRuntimeData;
 
   test.beforeEach(async ({ page }) => {
+    // Drop any installer work left by earlier projects before we activate.
+    await clearInstallerQueues();
+
     // Login to WordPress
     await auth.loginToWordPress(page);
     await activatePluginViaCLI(page, pluginId);
-    
+    // Activating can re-seed the installer queue — clear again so a mid-suite
+    // install cannot race the plugins screen during Skip/Submit.
+    await clearInstallerQueues();
+
     // Navigate to plugins page
     await page.goto('/wp-admin/plugins.php');
     await page.waitForLoadState('load');
-    
+    // Own the active-plugin precondition here. CLI activate used to hardcode the
+    // local directory name and fail silently on CI's wp-plugin-* install path, so
+    // a prior test that left the plugin inactive cascaded into "Deactivate link
+    // not found" on the next test.
+    await verifyPluginActive(page, pluginId);
+
     // Get survey runtime data
     surveyRuntimeData = await page.evaluate(() => {
       return window.NewfoldRuntime?.data || {};
     });
-    
+
     // Setup API intercepts
     await page.route('**/newfold-data/v1/events**', async route => {
       await route.fulfill({
@@ -158,45 +169,53 @@ test.describe('Plugin Deactivation Survey', () => {
   });
 
   test('Skip action works and deactivates plugin', async ({ page }) => {
+    test.setTimeout(60000);
     // Define selectors
     const modalContainer = '.nfd-deactivation-survey__container';
     const step1ContinueButton = 'button[nfd-deactivation-survey-next]';
     const step2SkipButton = 'button[nfd-deactivation-survey-skip]';
-    
+
     // Skip action works
     await triggerDeactivationModal(page, pluginId);
     await page.locator(step1ContinueButton).click();
-    
+
     // Set up request interception BEFORE triggering the action
     const requestPromise = page.waitForRequest(request =>
       request.url().includes('/newfold-data/v1/events') && request.method() === 'POST'
     );
-    
-    // Now click the skip button
-    await page.locator(step2SkipButton).click();
-    
-    // Wait for and validate the request payload
-    const request = await requestPromise;
+
+    // Skip redirects via window.location.href — wait for the plugins-page reload,
+    // not a fixed timeout after "modal gone" (that passes on document teardown).
+    const [request] = await Promise.all([
+      requestPromise,
+      waitForDeactivationNavigation(page, pluginId, async () => {
+        await page.locator(step2SkipButton).click();
+      }),
+    ]);
+
+    // Validate the request payload
     const requestBody = request.postDataJSON();
     expect(requestBody.data.survey_input).toBe('(Skipped)');
-    
-    // Verify modal closed and plugin deactivated
+
+    // waitForDeactivationNavigation already asserted the Activate link; confirm
+    // the survey UI is gone on the reloaded plugins page.
     await expect(page.locator(modalContainer)).not.toBeVisible();
-    await page.waitForTimeout(1000); // Wait for deactivation to complete
-    await verifyPluginDeactivated(page, pluginId);
-    
-    // Activate plugin and verify
-    await activatePlugin(page, pluginId);
-    await verifyPluginActive(page, pluginId);
+
+    // Reactivate via CLI (not the plugins-row UI). UI activation re-runs plugin
+    // bootstrap, which re-seeds the installer queue; a fast cron install of a
+    // companion plugin has been observed to fatal this screen before the next test.
+    await activatePluginViaCLI(page, pluginId);
+    await clearInstallerQueues();
   });
 
   test('Modal Submit survey action works', async ({ page }) => {
+    test.setTimeout(60000);
     // Define selectors
     const modalContainer = '.nfd-deactivation-survey__container';
     const step1ContinueButton = 'button[nfd-deactivation-survey-next]';
     const surveyTextarea = '#nfd-deactivation-survey__input';
     const submitButton = 'input[nfd-deactivation-survey-submit]';
-    
+
     // Open modal and go to step 2
     await triggerDeactivationModal(page, pluginId);
     await page.locator(step1ContinueButton).click();
@@ -204,27 +223,26 @@ test.describe('Plugin Deactivation Survey', () => {
     // Enter reason and submit
     const ugcReason = 'automated testing';
     await page.locator(surveyTextarea).fill(ugcReason);
-    
+
     // Set up request interception BEFORE triggering the action
     const requestPromise = page.waitForRequest(request =>
       request.url().includes('/newfold-data/v1/events') && request.method() === 'POST'
     );
-    
-    // Now click the submit button
-    await page.locator(submitButton).click();
-    
-    // Wait for and validate the request payload
-    const request = await requestPromise;
+
+    const [request] = await Promise.all([
+      requestPromise,
+      waitForDeactivationNavigation(page, pluginId, async () => {
+        await page.locator(submitButton).click();
+      }),
+    ]);
+
+    // Validate the request payload
     const requestBody = request.postDataJSON();
     expect(requestBody.data.survey_input).toBe(ugcReason);
-    
-    // Verify modal closed and plugin deactivated
+
     await expect(page.locator(modalContainer)).not.toBeVisible();
-    await page.waitForTimeout(1000); // Wait for deactivation to complete
-    await verifyPluginDeactivated(page, pluginId);
-    
-    // Activate plugin and verify
-    await activatePlugin(page, pluginId);
-    await verifyPluginActive(page, pluginId);
+
+    await activatePluginViaCLI(page, pluginId);
+    await clearInstallerQueues();
   });
 });
