@@ -1,0 +1,29 @@
+name: Newfold Prepare Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      level:
+        description: 'The level of release to be used.'
+        type: choice
+        options:
+          - 'patch'
+          - 'minor'
+          - 'major'
+        default: 'patch'
+        required: true
+permissions: {}
+
+jobs:
+  prep-release:
+    name: Prepare Release
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: newfold-labs/workflows/.github/workflows/reusable-module-prep-release.yml@main
+    with:
+      module-repo: ${{ github.repository }}
+      module-branch: 'main'
+      level: ${{ inputs.level }}
+      json-file: 'package.json'
+      php-file: ''
