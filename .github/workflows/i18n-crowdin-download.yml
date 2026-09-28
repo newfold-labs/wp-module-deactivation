@@ -17,7 +17,6 @@ jobs:
     permissions:
       contents: read # Matches the reusable workflow checkout; Crowdin/GitHub mutations use PAT from NEWFOLD_ACCESS_TOKEN inside the callee.
     uses: newfold-labs/workflows/.github/workflows/i18n-crowdin-download.yml@main
-    timeout-minutes: 30
     with:
       base_branch: ${{ inputs.base_branch }}
       CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_PROJECT_ID }}
