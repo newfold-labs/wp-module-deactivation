@@ -17,6 +17,8 @@ jobs:
   setup:
     name: Setup
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: {}
     outputs:
       branch: ${{ steps.extract_branch.outputs.branch }}
     steps:
@@ -29,6 +31,8 @@ jobs:
   bluehost:
     name: Bluehost Build and Test Playwright
     needs: setup
+    permissions:
+      contents: read # Required so the callee workflow token can checkout the private plugin/module repositories.
     uses: newfold-labs/workflows/.github/workflows/module-plugin-test-playwright.yml@main
     with:
       module-repo: ${{ github.repository }}
