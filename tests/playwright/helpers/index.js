@@ -18,26 +18,40 @@ const { wpCli } = wordpress;
 const { fancyLog } = utils;
 const clearInstallerQueues = newfold.clearInstallerQueues;
 
+let cachedPluginSlug = null;
+let cachedPluginSlugForId = null;
+
+/**
+ * Plugins list row for the brand plugin (data-plugin is the full plugin file path).
+ *
+ * @param {import('@playwright/test').Page} page - Playwright page object
+ * @param {string} pluginSlug - Installed plugin directory name from WP-CLI
+ * @returns {import('@playwright/test').Locator} Plugin table row locator
+ */
+const getPluginRow = (page, pluginSlug) => {
+  return page.locator(`tr[data-plugin^="${pluginSlug}/"]`);
+};
+
 /**
  * Get deactivation link for plugin
  *
  * @param {import('@playwright/test').Page} page - Playwright page object
- * @param {string} pluginId - Plugin ID
+ * @param {string} pluginSlug - Installed plugin directory name from WP-CLI
  * @returns {import('@playwright/test').Locator} Deactivation link locator
  */
-const getDeactivationLink = (page, pluginId) => {
-  return page.locator(`.deactivate a[id*="${pluginId}"]`);
+const getDeactivationLink = (page, pluginSlug) => {
+  return getPluginRow(page, pluginSlug).locator('.deactivate a');
 };
 
 /**
  * Get activation link for plugin
  *
  * @param {import('@playwright/test').Page} page - Playwright page object
- * @param {string} pluginId - Plugin ID
+ * @param {string} pluginSlug - Installed plugin directory name from WP-CLI
  * @returns {import('@playwright/test').Locator} Activation link locator
  */
-const getActivationLink = (page, pluginId) => {
-  return page.locator(`.activate a[id*="${pluginId}"]`);
+const getActivationLink = (page, pluginSlug) => {
+  return getPluginRow(page, pluginSlug).locator('.activate a');
 };
 
 /**
@@ -48,7 +62,8 @@ const getActivationLink = (page, pluginId) => {
  */
 const triggerDeactivationModal = async (page, pluginId) => {
   fancyLog('Clicking Deactivate link to Open Deactivation Modal');
-  const deactivateLink = getDeactivationLink(page, pluginId);
+  const pluginSlug = await getResolvedPluginSlug(pluginId);
+  const deactivateLink = getDeactivationLink(page, pluginSlug);
   await deactivateLink.click();
 };
 
@@ -65,13 +80,14 @@ const triggerDeactivationModal = async (page, pluginId) => {
  */
 const verifyPluginDeactivated = async (page, pluginId) => {
   fancyLog('Verifying Plugin is Not Active');
-  const activateLink = getActivationLink(page, pluginId);
+  const pluginSlug = await getResolvedPluginSlug(pluginId);
+  const activateLink = getActivationLink(page, pluginSlug);
   // Deactivation is a full plugins.php round-trip (including flush_rewrite_rules
   // in on_deactivate). Allow the same budget as a test-level action, not the
   // default 5s expect timeout.
   await expect(activateLink).toBeVisible({ timeout: 30000 });
 
-  const deactivateLink = getDeactivationLink(page, pluginId);
+  const deactivateLink = getDeactivationLink(page, pluginSlug);
   await expect(deactivateLink).not.toBeVisible();
 };
 
@@ -83,10 +99,11 @@ const verifyPluginDeactivated = async (page, pluginId) => {
  */
 const verifyPluginActive = async (page, pluginId) => {
   fancyLog('Verifying Plugin is Active');
-  const deactivateLink = getDeactivationLink(page, pluginId);
+  const pluginSlug = await getResolvedPluginSlug(pluginId);
+  const deactivateLink = getDeactivationLink(page, pluginSlug);
   await expect(deactivateLink).toBeVisible({ timeout: 30000 });
 
-  const activateLink = getActivationLink(page, pluginId);
+  const activateLink = getActivationLink(page, pluginSlug);
   await expect(activateLink).not.toBeVisible();
 };
 
@@ -98,7 +115,8 @@ const verifyPluginActive = async (page, pluginId) => {
  */
 const activatePlugin = async (page, pluginId) => {
   fancyLog('Clicking Activate Link to Activate Plugin');
-  const activateLink = getActivationLink(page, pluginId);
+  const pluginSlug = await getResolvedPluginSlug(pluginId);
+  const activateLink = getActivationLink(page, pluginSlug);
   // Do not waitForURL(/plugins\.php/) here — the page is already on plugins.php,
   // so that waiter resolves immediately and races the activate redirect.
   await activateLink.click();
@@ -148,6 +166,21 @@ const resolvePluginSlug = async (pluginId) => {
 };
 
 /**
+ * Cached WP-CLI slug for the current brand PLUGIN_ID (link ids use slug, not id).
+ *
+ * @param {string} pluginId - Plugin ID (e.g. 'bluehost', 'bigrock_in')
+ * @returns {Promise<string>} WP-CLI plugin slug (directory name)
+ */
+const getResolvedPluginSlug = async (pluginId) => {
+  if (cachedPluginSlugForId === pluginId && cachedPluginSlug) {
+    return cachedPluginSlug;
+  }
+  cachedPluginSlug = await resolvePluginSlug(pluginId);
+  cachedPluginSlugForId = pluginId;
+  return cachedPluginSlug;
+};
+
+/**
  * Activate plugin via CLI
  *
  * @param {import('@playwright/test').Page} page - Playwright page object
@@ -189,8 +222,10 @@ export {
   a11y,
   utils,
   // module specific helpers
+  getPluginRow,
   getDeactivationLink,
   getActivationLink,
+  getResolvedPluginSlug,
   triggerDeactivationModal,
   verifyPluginDeactivated,
   verifyPluginActive,
